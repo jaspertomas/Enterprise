@@ -1,5 +1,5 @@
 package enterpriseclient;
-
+//Thanks to: http://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html
 /*
  * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
  *
