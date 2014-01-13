@@ -33,6 +33,7 @@ package server;
 
 import java.net.*;
 import java.io.*;
+import utils.MySqlDBHelper;
 
 public class KKMultiServer {
 
@@ -56,5 +57,15 @@ public class KKMultiServer {
         } finally {
             if(serverSocket!=null)serverSocket.close();
         }
+    }
+    
+    private boolean dbConnect()
+    {
+        String url = "jdbc:mysql://localhost:3306/tmcuser";
+        String user = "root";
+        String password = "password";
+        
+        boolean result=MySqlDBHelper.init(url, user, password);
+        return result;
     }
 }
