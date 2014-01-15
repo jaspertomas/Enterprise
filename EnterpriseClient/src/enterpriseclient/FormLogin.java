@@ -19,6 +19,11 @@ public class FormLogin extends javax.swing.JFrame {
      */
     public FormLogin() {
         initComponents();
+//        try {
+//            KnockKnockClient kkc=new KnockKnockClient();
+//        } catch (IOException ex) {
+//            Logger.getLogger(FormLogin.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     /**
@@ -141,11 +146,11 @@ public class FormLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        try {
-            KnockKnockClient client=new KnockKnockClient();
-        } catch (IOException ex) {
-            Logger.getLogger(FormLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            KnockKnockClient client=new KnockKnockClient();
+//        } catch (IOException ex) {
+//            Logger.getLogger(FormLogin.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

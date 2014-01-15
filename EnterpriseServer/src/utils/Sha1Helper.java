@@ -11,10 +11,10 @@ public class Sha1Helper {
      * @param args
      * @throws NoSuchAlgorithmException
      */
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        System.out.println(sha1("admin"));
-    }
-     
+//    public static void main(String[] args) throws NoSuchAlgorithmException {
+//        System.out.println(sha1("admin"));
+//    }
+//     
     static String sha1(String input) throws NoSuchAlgorithmException {
         MessageDigest mDigest = MessageDigest.getInstance("SHA1");
         byte[] result = mDigest.digest(input.getBytes());

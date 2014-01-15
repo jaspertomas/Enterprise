@@ -20,6 +20,21 @@ import java.util.logging.Logger;
 public class MySqlDBHelper {
 
     static MySqlDBHelper  instance;
+
+    public static MySqlDBHelper getInstance() {
+        if(instance==null)
+        {
+            System.err.println("Error: MySqlDBHelper instance not initialized");
+            System.exit(1);
+        }
+        return instance;
+    }
+
+    public Connection getConnection() {
+        return con;
+    }
+    
+    
     public static boolean init(String url, String user, String password)
     {
         try{

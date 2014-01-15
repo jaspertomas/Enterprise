@@ -31,18 +31,23 @@ package server;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */ 
 
-import java.net.*;
-import java.io.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import utils.MySqlDBHelper;
 
 public class LoginProtocol {
     //states
-//    private static final int WAITING = 0;
-//    private static final int SENTKNOCKKNOCK = 1;
+    private static final int WAITING = 0;
+    private static final int SENTKNOCKKNOCK = 1;
 //    private static final int SENTCLUE = 2;
 //    private static final int ANOTHER = 3;
 
     //current state
-//    private int state = WAITING;
+    private int state = WAITING;
 //    private int currentJoke = 0;
 
     //additional data
@@ -55,12 +60,32 @@ public class LoginProtocol {
 
     public String processInput(String theInput) {
         String theOutput = null;
+        
 
         //if-else statement to generate output depending on input
-//        if (state == WAITING) {
-//            theOutput = "Knock! Knock!";
-//            state = SENTKNOCKKNOCK;
-//        } else if (state == SENTKNOCKKNOCK) {
+        if (state == WAITING) {
+            theOutput = "Knock! Knock!";
+            state = SENTKNOCKKNOCK;
+        } 
+        else
+        {
+            Connection conn=MySqlDBHelper.getInstance().getConnection();
+            Statement st = null;
+            ResultSet rs = null;
+            try { 
+                st = conn.createStatement();
+                rs = st.executeQuery("SELECT VERSION()");
+                if (rs.next()) {
+                    theOutput=rs.getString(1);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginProtocol.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        
+        }
+        
+//        else if (state == SENTKNOCKKNOCK) {
 //            if (theInput.equalsIgnoreCase("Who's there?")) {
 //                theOutput = clues[currentJoke];
 //                state = SENTCLUE;

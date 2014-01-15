@@ -36,11 +36,11 @@ import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class KKMultiServerThread extends Thread {
+public class EnterpriseServerThread extends Thread {
 
     private Socket socket = null;
 
-    public KKMultiServerThread(Socket socket) {
+    public EnterpriseServerThread(Socket socket) {
         super("KKMultiServerThread");
         this.socket = socket;
     }
@@ -53,7 +53,8 @@ public class KKMultiServerThread extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String inputLine, outputLine;
-            KnockKnockProtocol kkp = new KnockKnockProtocol();
+            LoginProtocol kkp = new LoginProtocol();
+//            KnockKnockProtocol kkp = new KnockKnockProtocol();
             outputLine = kkp.processInput(null);
             out.println(outputLine);
 

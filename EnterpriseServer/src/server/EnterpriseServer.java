@@ -35,10 +35,13 @@ import java.net.*;
 import java.io.*;
 import utils.MySqlDBHelper;
 
-public class KKMultiServer {
+public class EnterpriseServer {
 
     public static void main(String[] args) throws IOException {
 
+        //connect to database
+        dbConnect();
+        
 //        if (args.length != 1) {
 //            System.err.println("Usage: java KKMultiServer <port number>");
 //            System.exit(1);
@@ -50,7 +53,7 @@ public class KKMultiServer {
         
         ServerSocket serverSocket = new ServerSocket(portNumber);
         try {
-            while (listening) new KKMultiServerThread(serverSocket.accept()).start();
+            while (listening) new EnterpriseServerThread(serverSocket.accept()).start();
         } catch (IOException e) {
             System.err.println("Could not listen on port " + portNumber);
             System.exit(-1);
@@ -59,7 +62,7 @@ public class KKMultiServer {
         }
     }
     
-    private boolean dbConnect()
+    private static boolean dbConnect()
     {
         String url = "jdbc:mysql://localhost:3306/tmcuser";
         String user = "root";

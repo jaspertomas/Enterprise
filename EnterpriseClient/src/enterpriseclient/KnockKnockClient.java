@@ -34,7 +34,7 @@ import java.io.*;
 import java.net.*;
 
 public class KnockKnockClient {
-    public KnockKnockClient() throws IOException {
+    public static void main(String args[]) throws IOException {
         
 //        if (args.length != 2) {
 //            System.err.println(
