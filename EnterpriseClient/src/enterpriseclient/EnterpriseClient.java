@@ -56,17 +56,31 @@ public class EnterpriseClient {
             BufferedReader stdIn =
                 new BufferedReader(new InputStreamReader(System.in));
             String fromServer;
-            String fromUser;
+            String fromClient;
+            
+            ClientProtocol protocol = new ClientProtocol(username,password);
+            fromClient = protocol.processInput(ClientProtocol.getLoginString());
+            out.println(fromClient);
 
+//            while ((inputLine = in.readLine()) != null) {
+//                outputLine = protocol.processInput(inputLine);
+//                out.println(outputLine);
+//                if (outputLine.equals("Bye")) {
+//                    break;
+//                }
+//            }
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("Server: " + fromServer);
-                if (fromServer.equals("Bye."))
-                    break;
                 
-                fromUser = stdIn.readLine();
-                if (fromUser != null) {
-                    System.out.println("Client: " + fromUser);
-                    out.println(fromUser);
+                fromClient = protocol.processInput(fromServer);
+                if (protocol.getAction().contentEquals("exit"))
+                {
+                    System.exit(1);
+                    break;
+                }
+                if (fromClient != null) {
+                    System.out.println("Client: " + fromClient);
+                    out.println(fromClient);
                 }
             }
         } catch (UnknownHostException e) {

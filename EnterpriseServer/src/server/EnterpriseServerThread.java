@@ -53,15 +53,12 @@ public class EnterpriseServerThread extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String inputLine, outputLine;
-            LoginProtocol kkp = new LoginProtocol();
-//            KnockKnockProtocol kkp = new KnockKnockProtocol();
-            outputLine = kkp.processInput(null);
-            out.println(outputLine);
+            ServerProtocol kkp = new ServerProtocol();
 
             while ((inputLine = in.readLine()) != null) {
                 outputLine = kkp.processInput(inputLine);
                 out.println(outputLine);
-                if (outputLine.equals("Bye")) {
+                if (kkp.getAction().contentEquals("exit")) {
                     break;
                 }
             }

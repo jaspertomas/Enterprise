@@ -1,5 +1,20 @@
-package server;
+package enterpriseclient;
 //Thanks to: http://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html
+
+import constants.Constants;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import utils.JsonHelper;
+import utils.MySqlDBHelper;
+import utils.Sha1Helper;
+
 /*
  * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *
@@ -31,15 +46,9 @@ package server;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */ 
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import utils.MySqlDBHelper;
+public class ClientProtocol {
 
-public class LoginProtocol {
+    
     //states
     private static final int WAITING = 0;
     private static final int SENTKNOCKKNOCK = 1;
@@ -57,41 +66,61 @@ public class LoginProtocol {
 //                                 "Bless you!",
 //                                 "Is there an owl in here?",
 //                                 "Is there an echo in here?" };
+    String username, password;
+    public ClientProtocol(String username, String password)
+    {
+        this.username=username;
+        this.password=password;
+    
+    }
+    String action="";
 
+    public String getAction() {
+        return action;
+    }
+    
     public String processInput(String theInput) {
+        if(theInput==null)return null;
+        Map<String,Object> map=null;
+        try {
+            map=JsonHelper.toMap(theInput);
+        } catch (IOException ex) {
+            Logger.getLogger(ClientProtocol.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         String theOutput = null;
-        
+
+        //validation
+        if(map==null)return null;
+        if(!map.containsKey("program"))return null;
+        if(!map.containsKey("action"))return null;
+        if(!map.containsKey("data"))return null;
+
+        String program=(String)map.get("program");
+        if(!program.contentEquals(Constants.programname))return null;
+
+        action=(String)map.get("action");
+        Map<String,String> data=(Map<String,String>)map.get("data");
+
+
 
         //if-else statement to generate output depending on input
-        if (state == WAITING) {
-            theOutput = "Knock! Knock!";
-            state = SENTKNOCKKNOCK;
-        } 
-        else if(theInput.toLowerCase().contentEquals("exit"))
-        {
-            //end 
-                theOutput = "Bye.";
-        }
-        else
-        {
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
-//                rs = st.executeQuery("SELECT VERSION()");
-                rs = st.executeQuery("SELECT * from users where username='admin'");
 
-                if (rs.next()) {
-                    theOutput=rs.getString(2);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginProtocol.class.getName()).log(Level.SEVERE, null, ex);
+        if(action.contentEquals("login")) {
+            try {
+                String password_hash=Sha1Helper.sha1(password);
+                theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"login\", \"data\": {\"username\": \""+username+"\", \"password_hash\": \""+password_hash +"\"}}";
+            } catch (NoSuchAlgorithmException ex) {
+                ex.printStackTrace();
             }
-        
-        
+        } 
+        else if(action.contentEquals("welcome"))
+        {
+            System.out.println("Login Successful");
+            theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"exit\", \"data\": {}}";
         }
-        
+
+
 //        else if (state == SENTKNOCKKNOCK) {
 //            if (theInput.equalsIgnoreCase("Who's there?")) {
 //                theOutput = clues[currentJoke];
@@ -125,5 +154,9 @@ public class LoginProtocol {
 //            }
 //        }
         return theOutput;
+    }
+    public static String getLoginString()
+    {
+        return "{\"program\": \""+Constants.programname+"\", \"action\":\"login\", \"data\": {}}";
     }
 }

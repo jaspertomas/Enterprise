@@ -77,8 +77,6 @@ public class FormLogin extends javax.swing.JFrame {
             }
         });
 
-        txtPassword.setText("jPasswordField1");
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,8 +136,7 @@ public class FormLogin extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         try {
-            System.out.println(txtPassword.getPassword().toString());
-            EnterpriseClient client=new EnterpriseClient(txtUsername.getText(),txtPassword.getPassword().toString());
+            EnterpriseClient client=new EnterpriseClient(txtUsername.getText(),new String(txtPassword.getPassword()));
         } catch (IOException ex) {
             Logger.getLogger(FormLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
