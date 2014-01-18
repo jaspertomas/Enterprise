@@ -33,8 +33,9 @@ package enterpriseclient;
 import java.io.*;
 import java.net.*;
 
-public class KnockKnockClient {
-    public static void main(String args[]) throws IOException {
+public class EnterpriseClient {
+//    public static void main(String args[]) throws IOException {
+    public EnterpriseClient(String username, String password) throws IOException{
         
 //        if (args.length != 2) {
 //            System.err.println(

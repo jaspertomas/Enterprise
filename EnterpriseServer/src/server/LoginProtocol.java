@@ -67,6 +67,11 @@ public class LoginProtocol {
             theOutput = "Knock! Knock!";
             state = SENTKNOCKKNOCK;
         } 
+        else if(theInput.toLowerCase().contentEquals("exit"))
+        {
+            //end 
+                theOutput = "Bye.";
+        }
         else
         {
             Connection conn=MySqlDBHelper.getInstance().getConnection();
@@ -74,9 +79,11 @@ public class LoginProtocol {
             ResultSet rs = null;
             try { 
                 st = conn.createStatement();
-                rs = st.executeQuery("SELECT VERSION()");
+//                rs = st.executeQuery("SELECT VERSION()");
+                rs = st.executeQuery("SELECT * from users where username='admin'");
+
                 if (rs.next()) {
-                    theOutput=rs.getString(1);
+                    theOutput=rs.getString(2);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(LoginProtocol.class.getName()).log(Level.SEVERE, null, ex);
