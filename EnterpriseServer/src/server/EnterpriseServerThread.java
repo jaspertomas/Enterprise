@@ -41,7 +41,7 @@ public class EnterpriseServerThread extends Thread {
     private Socket socket = null;
 
     public EnterpriseServerThread(Socket socket) {
-        super("KKMultiServerThread");
+        super("ServerThread");
         this.socket = socket;
     }
 
@@ -64,15 +64,15 @@ public class EnterpriseServerThread extends Thread {
             }
             socket.close();
         } catch (IOException e) {
-            System.out.println("KKMultiServerThread: IOException");
+            System.out.println("ServerThread: IOException");
             e.printStackTrace();
         } finally {
             try {
                 if(in!=null)in.close();
                 if(out!=null)out.close();
             } catch (IOException ex) {
-//                Logger.getLogger(KKMultiServerThread.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("KKMultiServerThread: IOException: error closing reader");
+//                Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("ServerThread: IOException: error closing reader");
                 ex.printStackTrace();
 
             }

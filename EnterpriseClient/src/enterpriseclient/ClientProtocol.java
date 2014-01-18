@@ -114,9 +114,14 @@ public class ClientProtocol {
                 ex.printStackTrace();
             }
         } 
-        else if(action.contentEquals("welcome"))
+        else if(action.contentEquals("accessgranted"))
         {
             System.out.println("Login Successful");
+            theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"exit\", \"data\": {}}";
+        }
+        else if(action.contentEquals("accessdenied"))
+        {
+            System.out.println("Login Failed");
             theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"exit\", \"data\": {}}";
         }
 

@@ -42,12 +42,6 @@ public class EnterpriseServer {
         //connect to database
         dbConnect();
         
-//        if (args.length != 1) {
-//            System.err.println("Usage: java KKMultiServer <port number>");
-//            System.exit(1);
-//        }
-
-//        int portNumber = Integer.parseInt(args[0]);
         int portNumber=4444;
         boolean listening = true;
         

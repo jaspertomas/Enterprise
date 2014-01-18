@@ -32,27 +32,38 @@ package enterpriseclient;
 
 import java.io.*;
 import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class EnterpriseClient {
-//    public static void main(String args[]) throws IOException {
-    public EnterpriseClient(String username, String password) throws IOException{
+public class EnterpriseClientThread extends Thread {
+    public static final Integer accessdenied=1;
+    public static final Integer accessgranted=2;
+    public static final Integer loggedout=3;
+    private static Integer state=0;
+    
+    String username, password;
+    
+    public EnterpriseClientThread(String username, String password){
+        super("ClientThread");
         
-//        if (args.length != 2) {
-//            System.err.println(
-//                "Usage: java EchoClient <host name> <port number>");
-//            System.exit(1);
-//        }
-//
-//        String hostName = args[0];
-//        int portNumber = Integer.parseInt(args[1]);
-
+        this.username=username;
+        this.password=password;
+    }
+    
+    public void run()
+    {
         String hostName = "localhost";
         int portNumber = 4444;
         
-        Socket kkSocket = new Socket(hostName, portNumber);
-        PrintWriter out = new PrintWriter(kkSocket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
+        Socket kkSocket=null;
+        PrintWriter out=null;
+        BufferedReader in=null;
         try {
+             kkSocket = new Socket(hostName, portNumber);
+             out = new PrintWriter(kkSocket.getOutputStream(), true);
+             in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
+
+            
             BufferedReader stdIn =
                 new BufferedReader(new InputStreamReader(System.in));
             String fromServer;
@@ -62,20 +73,18 @@ public class EnterpriseClient {
             fromClient = protocol.processInput(ClientProtocol.getLoginString());
             out.println(fromClient);
 
-//            while ((inputLine = in.readLine()) != null) {
-//                outputLine = protocol.processInput(inputLine);
-//                out.println(outputLine);
-//                if (outputLine.equals("Bye")) {
-//                    break;
-//                }
-//            }
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("Server: " + fromServer);
                 
                 fromClient = protocol.processInput(fromServer);
+                if (protocol.getAction().contentEquals("accessdenied"))
+                {
+                    state=accessdenied;
+                    break;
+                }
                 if (protocol.getAction().contentEquals("exit"))
                 {
-                    System.exit(1);
+                    state=loggedout;
                     break;
                 }
                 if (fromClient != null) {
@@ -91,9 +100,14 @@ public class EnterpriseClient {
                 hostName);
             System.exit(1);
         } finally {
-            if(kkSocket!=null)kkSocket.close();
-            if(in!=null)in.close();
+            try {
+                if(kkSocket!=null)kkSocket.close();
+                if(in!=null)in.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }        
             if(out!=null)out.close();
         }
+    
     }
 }
