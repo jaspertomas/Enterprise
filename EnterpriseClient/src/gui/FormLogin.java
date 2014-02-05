@@ -136,7 +136,7 @@ public class FormLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        EnterpriseClientThread client=new EnterpriseClientThread(txtUsername.getText(),new String(txtPassword.getPassword()));
+        EnterpriseClientThread client=new EnterpriseClientThread(this,txtUsername.getText(),new String(txtPassword.getPassword()));
         client.start();
     }//GEN-LAST:event_btnLoginActionPerformed
 

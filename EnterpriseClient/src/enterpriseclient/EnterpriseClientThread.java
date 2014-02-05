@@ -32,8 +32,8 @@ package enterpriseclient;
 
 import java.io.*;
 import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class EnterpriseClientThread extends Thread {
     public static final Integer accessdenied=1;
@@ -42,37 +42,49 @@ public class EnterpriseClientThread extends Thread {
     private static Integer state=0;
     
     String username, password;
+    Socket kkSocket=null;
+    PrintWriter out=null;
+    BufferedReader in=null;
+    String hostName = "localhost";
+    int portNumber = 4444;
+    String fromServer;
+    String fromClient;
+    BufferedReader stdIn;
+    ClientProtocol protocol ;
     
-    public EnterpriseClientThread(String username, String password){
+    boolean loginsuccess=false;
+
+    public EnterpriseClientThread(JFrame frame, String username, String password){
         super("ClientThread");
         
         this.username=username;
         this.password=password;
+
+        //try to connect to server
+        try {
+            kkSocket = new Socket(hostName, portNumber);
+            out = new PrintWriter(kkSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
+            JOptionPane.showMessageDialog(frame, "Login successful");
+            loginsuccess=true;
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(frame, "Login failed: Server not found or "+ex.getMessage());
+            loginsuccess=false;
+        }
+
+            
+        stdIn = new BufferedReader(new InputStreamReader(System.in));
+        protocol = new ClientProtocol(username,password);
+        fromClient = protocol.processInput(ClientProtocol.getLoginString());
+        out.println(fromClient);
+
     }
     
     public void run()
     {
-        String hostName = "localhost";
-        int portNumber = 4444;
+        if(!loginsuccess)return;
         
-        Socket kkSocket=null;
-        PrintWriter out=null;
-        BufferedReader in=null;
         try {
-             kkSocket = new Socket(hostName, portNumber);
-             out = new PrintWriter(kkSocket.getOutputStream(), true);
-             in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
-
-            
-            BufferedReader stdIn =
-                new BufferedReader(new InputStreamReader(System.in));
-            String fromServer;
-            String fromClient;
-            
-            ClientProtocol protocol = new ClientProtocol(username,password);
-            fromClient = protocol.processInput(ClientProtocol.getLoginString());
-            out.println(fromClient);
-
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("Server: " + fromServer);
                 
