@@ -64,12 +64,6 @@ public class ServerProtocol {
 //                                 "Is there an owl in here?",
 //                                 "Is there an echo in here?" };
 
-    private String action="";
-
-    public String getAction() {
-        return action;
-    }
-    
     public Map<String,Object> processInput(String theInput, EnterpriseServerThread thread) {
         
         if(theInput==null)return null;
@@ -88,7 +82,7 @@ public class ServerProtocol {
             String program=(String)map.get("program");
             if(!program.contentEquals(Constants.programname))return null;
 
-            action=(String)map.get("action");
+            String action=(String)map.get("action");
             Map<String,String> data=(Map<String,String>)map.get("data");
 
 

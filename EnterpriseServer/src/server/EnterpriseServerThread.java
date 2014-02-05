@@ -33,8 +33,7 @@ package server;
 
 import java.net.*;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
 import utils.JsonHelper;
 
 public class EnterpriseServerThread extends Thread {
@@ -66,11 +65,15 @@ public class EnterpriseServerThread extends Thread {
 
             String inputLine, outputLine;
             ServerProtocol kkp = new ServerProtocol();
+            Map<String,Object> outputmap;
+            String outputaction;
 
             while ((inputLine = in.readLine()) != null) {
-                outputLine = JsonHelper.toJson(kkp.processInput(inputLine,this));
+                outputmap=kkp.processInput(inputLine,this);
+                outputaction=(String)outputmap.get("action");
+                outputLine = JsonHelper.toJson(outputmap);
                 out.println(outputLine);
-                if (kkp.getAction().contentEquals("exit")) {
+                if (outputaction.contentEquals("exit")) {
                     break;
                 }
             }
