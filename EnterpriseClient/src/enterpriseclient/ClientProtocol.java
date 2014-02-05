@@ -116,7 +116,10 @@ public class ClientProtocol {
         else if(action.contentEquals("accessgranted"))
         {
             System.out.println("Login Successful");
-            theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"exit\", \"data\": {}}";
+            //theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"exit\", \"data\": {}}";
+
+            //reply nothing
+            theOutput=null;
         }
         else if(action.contentEquals("accessdenied"))
         {
@@ -163,4 +166,13 @@ public class ClientProtocol {
     {
         return "{\"program\": \""+Constants.programname+"\", \"action\":\"login\", \"data\": {}}";
     }
+    public static String getExitString()
+    {
+        return "{\"program\": \"enterpriseprogram\", \"action\":\"exit\", \"data\": {}}";
+    }
+    public static void sendExit()
+    {
+        EnterpriseClientThread.send(getExitString());
+    }
+    
 }

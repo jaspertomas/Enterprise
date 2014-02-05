@@ -4,6 +4,8 @@
  */
 package gui;
 
+import enterpriseclient.ClientProtocol;
+
 /**
  *
  * @author jaspertomas
@@ -67,7 +69,9 @@ public class FrmMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLogoutActionPerformed
-        // TODO add your handling code here:
+        ClientProtocol.sendExit();
+        setVisible(false);
+        FormManager.getInstance().getFrmLogin().setVisible(true);
     }//GEN-LAST:event_cmdLogoutActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -70,7 +70,7 @@ public class ServerProtocol {
         return action;
     }
     
-    public String processInput(String theInput) {
+    public Map<String,Object> processInput(String theInput, EnterpriseServerThread thread) {
         
         if(theInput==null)return null;
         try {
@@ -98,10 +98,12 @@ public class ServerProtocol {
             if(action.contentEquals("exit"))
             {
                 theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"exit\", \"data\": {}}";
+                System.out.println(thread.getUsername()+": Logout Successful ");
             }
             else if(action.contentEquals("login"))
             {
                 String username=(String)data.get("username");
+                thread.setUsername(username);
                 String password_hash=(String)data.get("password_hash");
 
                 Connection conn=MySqlDBHelper.getInstance().getConnection();
@@ -161,7 +163,16 @@ public class ServerProtocol {
     //                state = WAITING;
     //            }
     //        }
-            return theOutput;
+            return jsonStringToMap(theOutput);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    private Map<String,Object> jsonStringToMap(String json)
+    {
+        try {
+            return JsonHelper.toMap(json);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;

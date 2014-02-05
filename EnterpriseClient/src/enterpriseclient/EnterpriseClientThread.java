@@ -42,18 +42,18 @@ public class EnterpriseClientThread extends Thread {
     public static final Integer loggedout=3;
     private static Integer state=0;
     
-    String username, password;
-    Socket kkSocket=null;
-    PrintWriter out=null;
-    BufferedReader in=null;
-    String hostName = "localhost";
-    int portNumber = 4444;
-    String fromServer;
-    String fromClient;
-    BufferedReader stdIn;
-    ClientProtocol protocol ;
+    static String username, password;
+    static Socket kkSocket=null;
+    static PrintWriter out=null;
+    static BufferedReader in=null;
+    static String hostName = "localhost";
+    static int portNumber = 4444;
+    static String fromServer;
+    static String fromClient;
+    static BufferedReader stdIn;
+    static ClientProtocol protocol ;
     
-    boolean loginsuccess=false;
+    static boolean loginsuccess=false;
 
     public EnterpriseClientThread(JFrame frame, String username, String password){
         super("ClientThread");
@@ -128,4 +128,12 @@ public class EnterpriseClientThread extends Thread {
         }
     
     }
+    
+    public static void send(String string)
+    {
+        out.println(string);
+    }
+
+
+
 }

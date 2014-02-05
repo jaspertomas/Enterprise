@@ -35,10 +35,22 @@ import java.net.*;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.JsonHelper;
 
 public class EnterpriseServerThread extends Thread {
 
     private Socket socket = null;
+    
+    String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
 
     public EnterpriseServerThread(Socket socket) {
         super("ServerThread");
@@ -56,7 +68,7 @@ public class EnterpriseServerThread extends Thread {
             ServerProtocol kkp = new ServerProtocol();
 
             while ((inputLine = in.readLine()) != null) {
-                outputLine = kkp.processInput(inputLine);
+                outputLine = JsonHelper.toJson(kkp.processInput(inputLine,this));
                 out.println(outputLine);
                 if (kkp.getAction().contentEquals("exit")) {
                     break;
