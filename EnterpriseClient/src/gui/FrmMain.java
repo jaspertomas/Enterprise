@@ -32,6 +32,7 @@ public class FrmMain extends javax.swing.JFrame {
         cmdLogout = new javax.swing.JButton();
         cmdPurchaseOrder = new javax.swing.JButton();
         cmdInvoice = new javax.swing.JButton();
+        cmdDSR = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,6 +60,13 @@ public class FrmMain extends javax.swing.JFrame {
             }
         });
 
+        cmdDSR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dsr.jpg"))); // NOI18N
+        cmdDSR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdDSRActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,8 +83,10 @@ public class FrmMain extends javax.swing.JFrame {
                         .add(29, 29, 29)
                         .add(cmdPurchaseOrder)
                         .add(18, 18, 18)
-                        .add(cmdInvoice)))
-                .addContainerGap(522, Short.MAX_VALUE))
+                        .add(cmdInvoice)
+                        .add(18, 18, 18)
+                        .add(cmdDSR)))
+                .addContainerGap(482, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -86,7 +96,8 @@ public class FrmMain extends javax.swing.JFrame {
                 .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(cmdPurchaseOrder)
-                    .add(cmdInvoice))
+                    .add(cmdInvoice)
+                    .add(cmdDSR))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 167, Short.MAX_VALUE)
                 .add(cmdLogout)
                 .addContainerGap())
@@ -102,16 +113,22 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_cmdLogoutActionPerformed
 
     private void cmdPurchaseOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPurchaseOrderActionPerformed
-        setVisible(false);
+        //setVisible(false);
         FormManager.getInstance().getFrmPurchaseOrder().setVisible(true);
     }//GEN-LAST:event_cmdPurchaseOrderActionPerformed
 
     private void cmdInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdInvoiceActionPerformed
-        setVisible(false);
+        //setVisible(false);
         FormManager.getInstance().getFrmInvoice().setVisible(true);
     }//GEN-LAST:event_cmdInvoiceActionPerformed
 
+    private void cmdDSRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdDSRActionPerformed
+        //setVisible(false);
+        FormManager.getInstance().getFrmDSR().setVisible(true);
+    }//GEN-LAST:event_cmdDSRActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cmdDSR;
     private javax.swing.JButton cmdInvoice;
     private javax.swing.JButton cmdLogout;
     private javax.swing.JButton cmdPurchaseOrder;

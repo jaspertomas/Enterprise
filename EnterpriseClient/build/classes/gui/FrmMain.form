@@ -36,9 +36,11 @@
                       <Component id="cmdPurchaseOrder" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="cmdInvoice" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="cmdDSR" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="522" max="32767" attributes="0"/>
+              <EmptySpace pref="482" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -51,6 +53,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="cmdPurchaseOrder" min="-2" max="-2" attributes="0"/>
                   <Component id="cmdInvoice" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmdDSR" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="167" max="32767" attributes="0"/>
               <Component id="cmdLogout" min="-2" max="-2" attributes="0"/>
@@ -94,6 +97,16 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdInvoiceActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="cmdDSR">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/images/dsr.jpg"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdDSRActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

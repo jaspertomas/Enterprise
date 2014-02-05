@@ -26,12 +26,14 @@ public class FormManager {
     FrmMain frmMain;
     FrmInvoice frmInvoice;
     FrmPurchaseOrder frmPurchaseOrder;
+    FrmDSR frmDSR;
     
     private FormManager(){
         frmLogin=new FrmLogin();
         frmMain=new FrmMain();
         frmInvoice=new FrmInvoice();
         frmPurchaseOrder=new FrmPurchaseOrder();
+        frmDSR=new FrmDSR();
     }
     //-----------------END-SINGLETON-------------------
 
@@ -51,6 +53,10 @@ public class FormManager {
 
     public FrmPurchaseOrder getFrmPurchaseOrder() {
         return frmPurchaseOrder;
+    }
+
+    public FrmDSR getFrmDSR() {
+        return frmDSR;
     }
     
     
