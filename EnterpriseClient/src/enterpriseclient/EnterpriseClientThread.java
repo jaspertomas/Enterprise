@@ -115,7 +115,7 @@ public class EnterpriseClientThread extends Thread {
 
                     if (outputaction.contentEquals("accessdenied"))
                     {
-                        state=accessdenied;
+                        state=accessdenied; 
                         break;
                     }
                     if (outputaction.contentEquals("exit"))
