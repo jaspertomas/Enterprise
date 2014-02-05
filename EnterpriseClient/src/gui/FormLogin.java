@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package enterpriseclient;
+package gui;
 
+import enterpriseclient.EnterpriseClientThread;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

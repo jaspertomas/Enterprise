@@ -113,10 +113,14 @@ public class ServerProtocol {
                     rs = st.executeQuery("SELECT * from users where username='"+username+"' and  password_hash='"+password_hash+"'");
 
                     if (rs.next()) {
+                        System.out.println(username+": Login successful ");
                         theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"accessgranted\", \"data\": {}}";
                     }
                     else
+                    {
+                        System.out.println(username+": Login failed ");
                         theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"accessdenied\", \"data\": {}}";
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(ServerProtocol.class.getName()).log(Level.SEVERE, null, ex);
                 }
