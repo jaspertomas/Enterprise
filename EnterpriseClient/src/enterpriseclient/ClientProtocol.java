@@ -74,11 +74,7 @@ public class ClientProtocol {
     }
     String action="";
 
-    public String getAction() {
-        return action;
-    }
-    
-    public String processInput(String theInput) {
+    public Map<String,Object> processInput(String theInput) {
         if(theInput==null)return null;
         Map<String,Object> map=null;
         try {
@@ -160,19 +156,34 @@ public class ClientProtocol {
 //                state = WAITING;
 //            }
 //        }
-        return theOutput;
+        return theOutput==null?jsonStringToMap(theOutput):null;
     }
-    public static String getLoginString()
+    public String getLoginString()
     {
-        return "{\"program\": \""+Constants.programname+"\", \"action\":\"login\", \"data\": {}}";
+        try {
+            String password_hash=Sha1Helper.sha1(password);
+            return "{\"program\": \""+Constants.programname+"\", \"action\":\"login\", \"data\": {\"username\": \""+username+"\", \"password_hash\": \""+password_hash +"\"}}";
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
-    public static String getExitString()
+    
+    private Map<String,Object> jsonStringToMap(String json)
     {
-        return "{\"program\": \"enterpriseprogram\", \"action\":\"exit\", \"data\": {}}";
+        if(json==null)return null;
+        try {
+            return JsonHelper.toMap(json);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
+    
+    
     public static void sendExit()
     {
-        EnterpriseClientThread.send(getExitString());
+        EnterpriseClientThread.send("{\"program\": \"enterpriseprogram\", \"action\":\"exit\", \"data\": {}}");
     }
     
 }

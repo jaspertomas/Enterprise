@@ -33,8 +33,10 @@ package enterpriseclient;
 import gui.FormManager;
 import java.io.*;
 import java.net.*;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import utils.JsonHelper;
 
 public class EnterpriseClientThread extends Thread {
     public static final Integer accessdenied=1;
@@ -81,8 +83,7 @@ public class EnterpriseClientThread extends Thread {
             
         stdIn = new BufferedReader(new InputStreamReader(System.in));
         protocol = new ClientProtocol(username,password);
-        fromClient = protocol.processInput(ClientProtocol.getLoginString());
-        out.println(fromClient);
+        out.println(protocol.getLoginString());
 
     }
     
@@ -91,23 +92,38 @@ public class EnterpriseClientThread extends Thread {
         if(!loginsuccess)return;
         
         try {
+            Map<String,Object> outputmap;
+            String outputaction;
+            
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("Server: " + fromServer);
                 
-                fromClient = protocol.processInput(fromServer);
-                if (protocol.getAction().contentEquals("accessdenied"))
+                //get and format protocol output
+                //if protocol response is null, there is nothing to reply to the client
+                fromClient = null;
+                outputaction=null;
+                outputmap = protocol.processInput(fromServer);
+                if(outputmap!=null)
                 {
-                    state=accessdenied;
-                    break;
+                    outputaction=(String)outputmap.get("action");
+                    fromClient = JsonHelper.toJson(outputmap);
                 }
-                if (protocol.getAction().contentEquals("exit"))
-                {
-                    state=loggedout;
-                    break;
-                }
+                        
                 if (fromClient != null) {
                     System.out.println("Client: " + fromClient);
                     out.println(fromClient);
+
+                    if (outputaction.contentEquals("accessdenied"))
+                    {
+                        state=accessdenied;
+                        break;
+                    }
+                    if (outputaction.contentEquals("exit"))
+                    {
+                        state=loggedout;
+                        break;
+                    }
+                
                 }
             }
         } catch (UnknownHostException e) {
