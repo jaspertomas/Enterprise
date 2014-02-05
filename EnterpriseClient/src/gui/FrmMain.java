@@ -30,9 +30,12 @@ public class FrmMain extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         cmdLogout = new javax.swing.JButton();
+        cmdPurchaseOrder = new javax.swing.JButton();
+        cmdInvoice = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
         jLabel1.setText("TMC Program");
 
         cmdLogout.setText("Logout");
@@ -42,27 +45,51 @@ public class FrmMain extends javax.swing.JFrame {
             }
         });
 
+        cmdPurchaseOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/po.jpg"))); // NOI18N
+        cmdPurchaseOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdPurchaseOrderActionPerformed(evt);
+            }
+        });
+
+        cmdInvoice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/inv.jpg"))); // NOI18N
+        cmdInvoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdInvoiceActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(cmdLogout)
+                .add(25, 25, 25))
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel1)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(188, Short.MAX_VALUE)
-                .add(cmdLogout)
-                .add(124, 124, 124))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel1)
+                    .add(layout.createSequentialGroup()
+                        .add(29, 29, 29)
+                        .add(cmdPurchaseOrder)
+                        .add(18, 18, 18)
+                        .add(cmdInvoice)))
+                .addContainerGap(522, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jLabel1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 128, Short.MAX_VALUE)
+                .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(cmdPurchaseOrder)
+                    .add(cmdInvoice))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 167, Short.MAX_VALUE)
                 .add(cmdLogout)
-                .add(121, 121, 121))
+                .addContainerGap())
         );
 
         pack();
@@ -74,8 +101,20 @@ public class FrmMain extends javax.swing.JFrame {
         FormManager.getInstance().getFrmLogin().setVisible(true);
     }//GEN-LAST:event_cmdLogoutActionPerformed
 
+    private void cmdPurchaseOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPurchaseOrderActionPerformed
+        setVisible(false);
+        FormManager.getInstance().getFrmPurchaseOrder().setVisible(true);
+    }//GEN-LAST:event_cmdPurchaseOrderActionPerformed
+
+    private void cmdInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdInvoiceActionPerformed
+        setVisible(false);
+        FormManager.getInstance().getFrmInvoice().setVisible(true);
+    }//GEN-LAST:event_cmdInvoiceActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cmdInvoice;
     private javax.swing.JButton cmdLogout;
+    private javax.swing.JButton cmdPurchaseOrder;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

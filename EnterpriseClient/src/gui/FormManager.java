@@ -20,32 +20,37 @@ public class FormManager {
         }
         return instance;
     }
+    //-----------------END-SINGLETON-------------------
+    
+    FrmLogin frmLogin;
+    FrmMain frmMain;
+    FrmInvoice frmInvoice;
+    FrmPurchaseOrder frmPurchaseOrder;
     
     private FormManager(){
         frmLogin=new FrmLogin();
         frmMain=new FrmMain();
+        frmInvoice=new FrmInvoice();
+        frmPurchaseOrder=new FrmPurchaseOrder();
     }
     //-----------------END-SINGLETON-------------------
 
     
-    
-    FrmLogin frmLogin;
-    FrmMain frmMain;
 
     public FrmLogin getFrmLogin() {
         return frmLogin;
-    }
-
-    public void setFrmLogin(FrmLogin frmLogin) {
-        this.frmLogin = frmLogin;
     }
 
     public FrmMain getFrmMain() {
         return frmMain;
     }
 
-    public void setFrmMain(FrmMain frmMain) {
-        this.frmMain = frmMain;
+    public FrmInvoice getFrmInvoice() {
+        return frmInvoice;
+    }
+
+    public FrmPurchaseOrder getFrmPurchaseOrder() {
+        return frmPurchaseOrder;
     }
     
     
