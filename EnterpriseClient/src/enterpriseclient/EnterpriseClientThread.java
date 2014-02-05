@@ -30,6 +30,7 @@ package enterpriseclient;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */ 
 
+import gui.FormManager;
 import java.io.*;
 import java.net.*;
 import javax.swing.JFrame;
@@ -67,6 +68,11 @@ public class EnterpriseClientThread extends Thread {
             in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
             JOptionPane.showMessageDialog(frame, "Login successful");
             loginsuccess=true;
+            
+            FormManager.getInstance().getFrmLogin().setVisible(false);
+            FormManager.getInstance().getFrmMain().setVisible(true);
+            
+            
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(frame, "Login failed: Server not found or "+ex.getMessage());
             loginsuccess=false;
