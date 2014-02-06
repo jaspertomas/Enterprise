@@ -57,9 +57,9 @@ public class EnterpriseClientThread extends Thread {
     
     static boolean loginsuccess=false;
 
-    public EnterpriseClientThread(JFrame frame, String username, String password){
+    public EnterpriseClientThread(JFrame frame, String hostname, String username, String password){
         super("ClientThread");
-        
+        this.hostName=hostname;
         this.username=username;
         this.password=password;
 

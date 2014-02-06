@@ -118,7 +118,8 @@ public class ServerProtocol {
                         theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"accessdenied\", \"data\": {}}";
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(ServerProtocol.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(ServerProtocol.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                 }
 
 
