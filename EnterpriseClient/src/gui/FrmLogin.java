@@ -159,6 +159,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         EnterpriseClientThread client=new EnterpriseClientThread(this,txtHostname.getText(),txtUsername.getText(),new String(txtPassword.getPassword()));
+        txtPassword.setText("");
         client.start();
     }//GEN-LAST:event_btnLoginActionPerformed
 
