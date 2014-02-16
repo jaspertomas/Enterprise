@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -100,13 +99,13 @@ public class AccountType {
     public static AccountType getByName(String name)
     {
             HashMap<Integer,AccountType> map=select(" name = '"+name+"'");
-            for(AccountType item:map.values())return item;
+            for(AccountType item:map)return item;
             return null;
     }	
     */
     public static AccountType getById(Integer id) {
-            HashMap<Integer,AccountType> map=select(" id = '"+id.toString()+"'");
-            for(AccountType item:map.values())return item;
+            ArrayList<AccountType> map=select(" id = '"+id.toString()+"'");
+            for(AccountType item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -176,28 +175,29 @@ public class AccountType {
             return null;
     }
 
-    public static HashMap<Integer, AccountType> select(String conditions)
+    public static ArrayList<AccountType> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, AccountType> items=new HashMap<Integer, AccountType>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new AccountType(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(AccountType.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<AccountType> items=new ArrayList<AccountType>();
+            while (rs.next()) {
+                items.add(new AccountType(rs));
+                    //items.put(rs.getInt("id"), new AccountType(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountType.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(AccountType item,boolean withId)
     {
@@ -271,11 +271,9 @@ public class AccountType {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,AccountType> items=AccountType.select("");
-        for(Integer key:items.keySet())
+        ArrayList<AccountType> items=AccountType.select("");
+        for(AccountType item:items)
         {
-            AccountType item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(AccountType.count(""));

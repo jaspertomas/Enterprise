@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -165,13 +164,13 @@ public class Notes {
     public static Notes getByName(String name)
     {
             HashMap<Integer,Notes> map=select(" name = '"+name+"'");
-            for(Notes item:map.values())return item;
+            for(Notes item:map)return item;
             return null;
     }	
     */
     public static Notes getById(Integer id) {
-            HashMap<Integer,Notes> map=select(" id = '"+id.toString()+"'");
-            for(Notes item:map.values())return item;
+            ArrayList<Notes> map=select(" id = '"+id.toString()+"'");
+            for(Notes item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -241,28 +240,29 @@ public class Notes {
             return null;
     }
 
-    public static HashMap<Integer, Notes> select(String conditions)
+    public static ArrayList<Notes> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Notes> items=new HashMap<Integer, Notes>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Notes(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Notes.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Notes> items=new ArrayList<Notes>();
+            while (rs.next()) {
+                items.add(new Notes(rs));
+                    //items.put(rs.getInt("id"), new Notes(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Notes.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Notes item,boolean withId)
     {
@@ -336,11 +336,9 @@ public class Notes {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Notes> items=Notes.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Notes> items=Notes.select("");
+        for(Notes item:items)
         {
-            Notes item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Notes.count(""));

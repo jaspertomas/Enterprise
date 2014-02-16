@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -438,13 +437,13 @@ public class Product {
     public static Product getByName(String name)
     {
             HashMap<Integer,Product> map=select(" name = '"+name+"'");
-            for(Product item:map.values())return item;
+            for(Product item:map)return item;
             return null;
     }	
     */
     public static Product getById(Integer id) {
-            HashMap<Integer,Product> map=select(" id = '"+id.toString()+"'");
-            for(Product item:map.values())return item;
+            ArrayList<Product> map=select(" id = '"+id.toString()+"'");
+            for(Product item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -514,28 +513,29 @@ public class Product {
             return null;
     }
 
-    public static HashMap<Integer, Product> select(String conditions)
+    public static ArrayList<Product> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Product> items=new HashMap<Integer, Product>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Product(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Product> items=new ArrayList<Product>();
+            while (rs.next()) {
+                items.add(new Product(rs));
+                    //items.put(rs.getInt("id"), new Product(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Product item,boolean withId)
     {
@@ -609,11 +609,9 @@ public class Product {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Product> items=Product.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Product> items=Product.select("");
+        for(Product item:items)
         {
-            Product item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Product.count(""));

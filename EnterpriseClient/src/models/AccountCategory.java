@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -139,13 +138,13 @@ public class AccountCategory {
     public static AccountCategory getByName(String name)
     {
             HashMap<Integer,AccountCategory> map=select(" name = '"+name+"'");
-            for(AccountCategory item:map.values())return item;
+            for(AccountCategory item:map)return item;
             return null;
     }	
     */
     public static AccountCategory getById(Integer id) {
-            HashMap<Integer,AccountCategory> map=select(" id = '"+id.toString()+"'");
-            for(AccountCategory item:map.values())return item;
+            ArrayList<AccountCategory> map=select(" id = '"+id.toString()+"'");
+            for(AccountCategory item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -215,28 +214,29 @@ public class AccountCategory {
             return null;
     }
 
-    public static HashMap<Integer, AccountCategory> select(String conditions)
+    public static ArrayList<AccountCategory> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, AccountCategory> items=new HashMap<Integer, AccountCategory>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new AccountCategory(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(AccountCategory.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<AccountCategory> items=new ArrayList<AccountCategory>();
+            while (rs.next()) {
+                items.add(new AccountCategory(rs));
+                    //items.put(rs.getInt("id"), new AccountCategory(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountCategory.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(AccountCategory item,boolean withId)
     {
@@ -310,11 +310,9 @@ public class AccountCategory {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,AccountCategory> items=AccountCategory.select("");
-        for(Integer key:items.keySet())
+        ArrayList<AccountCategory> items=AccountCategory.select("");
+        for(AccountCategory item:items)
         {
-            AccountCategory item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(AccountCategory.count(""));

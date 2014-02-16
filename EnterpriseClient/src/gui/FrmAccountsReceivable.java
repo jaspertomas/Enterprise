@@ -12,13 +12,15 @@ import javax.swing.WindowConstants;
  */
 public class FrmAccountsReceivable extends javax.swing.JFrame {
 
-    private static int page=0;
+    private static Integer page=0;
     /**
      * Creates new form FrmAccountsReceivable
      */
     public FrmAccountsReceivable() {
         initComponents();
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        lblPage.setText(String.valueOf(page+1));
+
     }
 
     /**
@@ -37,6 +39,8 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
         cmdPreviousPage = new javax.swing.JButton();
         cmdNextPage = new javax.swing.JButton();
         cmdLastPage = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        lblPage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,6 +82,10 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Page ");
+
+        lblPage.setText("0");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -94,6 +102,10 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cmdPreviousPage)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jLabel2)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(lblPage)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cmdNextPage)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cmdLastPage)
@@ -108,13 +120,15 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
                 .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(table, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cmdExit)
                     .add(cmdFirstPage)
                     .add(cmdPreviousPage)
                     .add(cmdNextPage)
-                    .add(cmdLastPage))
+                    .add(cmdLastPage)
+                    .add(jLabel2)
+                    .add(lblPage))
                 .addContainerGap())
         );
 
@@ -130,6 +144,7 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
         if(page!=0)
         {
             page=0;table.gotoPage(page);
+            lblPage.setText(String.valueOf(page+1));
         }
     }//GEN-LAST:event_cmdFirstPageActionPerformed
 
@@ -137,20 +152,23 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
         if(page!=0)
         {
             page--;table.gotoPage(page);
+            lblPage.setText(String.valueOf(page+1));
         }
     }//GEN-LAST:event_cmdPreviousPageActionPerformed
 
     private void cmdNextPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdNextPageActionPerformed
-        if(page!=table.getMaxPages())
+        if(page!=table.getMaxPages()-1)
         {
             page++;table.gotoPage(page);
+            lblPage.setText(String.valueOf(page+1));
         }
     }//GEN-LAST:event_cmdNextPageActionPerformed
 
     private void cmdLastPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLastPageActionPerformed
-        if(page!=table.getMaxPages())
+        if(page!=table.getMaxPages()-1)
         {
-            page=table.getMaxPages();table.gotoPage(page);
+            page=table.getMaxPages()-1;table.gotoPage(page);
+            lblPage.setText(String.valueOf(page+1));
         }
     }//GEN-LAST:event_cmdLastPageActionPerformed
 
@@ -195,6 +213,8 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
     private javax.swing.JButton cmdNextPage;
     private javax.swing.JButton cmdPreviousPage;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblPage;
     private gui.tables.AccountsReceivableTable table;
     // End of variables declaration//GEN-END:variables
 }

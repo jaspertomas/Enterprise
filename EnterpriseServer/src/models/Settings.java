@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -113,13 +112,13 @@ public class Settings {
     public static Settings getByName(String name)
     {
             HashMap<Integer,Settings> map=select(" name = '"+name+"'");
-            for(Settings item:map.values())return item;
+            for(Settings item:map)return item;
             return null;
     }	
     */
     public static Settings getById(Integer id) {
-            HashMap<Integer,Settings> map=select(" id = '"+id.toString()+"'");
-            for(Settings item:map.values())return item;
+            ArrayList<Settings> map=select(" id = '"+id.toString()+"'");
+            for(Settings item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -189,28 +188,29 @@ public class Settings {
             return null;
     }
 
-    public static HashMap<Integer, Settings> select(String conditions)
+    public static ArrayList<Settings> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Settings> items=new HashMap<Integer, Settings>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Settings(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Settings> items=new ArrayList<Settings>();
+            while (rs.next()) {
+                items.add(new Settings(rs));
+                    //items.put(rs.getInt("id"), new Settings(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Settings item,boolean withId)
     {
@@ -284,11 +284,9 @@ public class Settings {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Settings> items=Settings.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Settings> items=Settings.select("");
+        for(Settings item:items)
         {
-            Settings item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Settings.count(""));

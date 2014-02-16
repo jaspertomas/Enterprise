@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -100,13 +99,13 @@ public class PurchaseTemplate {
     public static PurchaseTemplate getByName(String name)
     {
             HashMap<Integer,PurchaseTemplate> map=select(" name = '"+name+"'");
-            for(PurchaseTemplate item:map.values())return item;
+            for(PurchaseTemplate item:map)return item;
             return null;
     }	
     */
     public static PurchaseTemplate getById(Integer id) {
-            HashMap<Integer,PurchaseTemplate> map=select(" id = '"+id.toString()+"'");
-            for(PurchaseTemplate item:map.values())return item;
+            ArrayList<PurchaseTemplate> map=select(" id = '"+id.toString()+"'");
+            for(PurchaseTemplate item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -176,28 +175,29 @@ public class PurchaseTemplate {
             return null;
     }
 
-    public static HashMap<Integer, PurchaseTemplate> select(String conditions)
+    public static ArrayList<PurchaseTemplate> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, PurchaseTemplate> items=new HashMap<Integer, PurchaseTemplate>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new PurchaseTemplate(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(PurchaseTemplate.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<PurchaseTemplate> items=new ArrayList<PurchaseTemplate>();
+            while (rs.next()) {
+                items.add(new PurchaseTemplate(rs));
+                    //items.put(rs.getInt("id"), new PurchaseTemplate(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(PurchaseTemplate.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(PurchaseTemplate item,boolean withId)
     {
@@ -271,11 +271,9 @@ public class PurchaseTemplate {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,PurchaseTemplate> items=PurchaseTemplate.select("");
-        for(Integer key:items.keySet())
+        ArrayList<PurchaseTemplate> items=PurchaseTemplate.select("");
+        for(PurchaseTemplate item:items)
         {
-            PurchaseTemplate item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(PurchaseTemplate.count(""));

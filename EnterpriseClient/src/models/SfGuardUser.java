@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -243,13 +242,13 @@ public class SfGuardUser {
     public static SfGuardUser getByName(String name)
     {
             HashMap<Long,SfGuardUser> map=select(" name = '"+name+"'");
-            for(SfGuardUser item:map.values())return item;
+            for(SfGuardUser item:map)return item;
             return null;
     }	
     */
     public static SfGuardUser getById(Long id) {
-            HashMap<Long,SfGuardUser> map=select(" id = '"+id.toString()+"'");
-            for(SfGuardUser item:map.values())return item;
+            ArrayList<SfGuardUser> map=select(" id = '"+id.toString()+"'");
+            for(SfGuardUser item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -319,28 +318,29 @@ public class SfGuardUser {
             return null;
     }
 
-    public static HashMap<Long, SfGuardUser> select(String conditions)
+    public static ArrayList<SfGuardUser> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Long, SfGuardUser> items=new HashMap<Long, SfGuardUser>();
-                while (rs.next()) {
-                    items.put(rs.getLong("id"), new SfGuardUser(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(SfGuardUser.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<SfGuardUser> items=new ArrayList<SfGuardUser>();
+            while (rs.next()) {
+                items.add(new SfGuardUser(rs));
+                    //items.put(rs.getLong("id"), new SfGuardUser(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(SfGuardUser.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(SfGuardUser item,boolean withId)
     {
@@ -414,11 +414,9 @@ public class SfGuardUser {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Long,SfGuardUser> items=SfGuardUser.select("");
-        for(Long key:items.keySet())
+        ArrayList<SfGuardUser> items=SfGuardUser.select("");
+        for(SfGuardUser item:items)
         {
-            SfGuardUser item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(SfGuardUser.count(""));

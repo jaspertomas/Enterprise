@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -269,13 +268,13 @@ public class Event {
     public static Event getByName(String name)
     {
             HashMap<Integer,Event> map=select(" name = '"+name+"'");
-            for(Event item:map.values())return item;
+            for(Event item:map)return item;
             return null;
     }	
     */
     public static Event getById(Integer id) {
-            HashMap<Integer,Event> map=select(" id = '"+id.toString()+"'");
-            for(Event item:map.values())return item;
+            ArrayList<Event> map=select(" id = '"+id.toString()+"'");
+            for(Event item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -345,28 +344,29 @@ public class Event {
             return null;
     }
 
-    public static HashMap<Integer, Event> select(String conditions)
+    public static ArrayList<Event> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Event> items=new HashMap<Integer, Event>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Event(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Event.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Event> items=new ArrayList<Event>();
+            while (rs.next()) {
+                items.add(new Event(rs));
+                    //items.put(rs.getInt("id"), new Event(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Event.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Event item,boolean withId)
     {
@@ -440,11 +440,9 @@ public class Event {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Event> items=Event.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Event> items=Event.select("");
+        for(Event item:items)
         {
-            Event item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Event.count(""));

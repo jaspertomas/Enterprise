@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -425,13 +424,13 @@ public class Purchase {
     public static Purchase getByName(String name)
     {
             HashMap<Integer,Purchase> map=select(" name = '"+name+"'");
-            for(Purchase item:map.values())return item;
+            for(Purchase item:map)return item;
             return null;
     }	
     */
     public static Purchase getById(Integer id) {
-            HashMap<Integer,Purchase> map=select(" id = '"+id.toString()+"'");
-            for(Purchase item:map.values())return item;
+            ArrayList<Purchase> map=select(" id = '"+id.toString()+"'");
+            for(Purchase item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -501,28 +500,29 @@ public class Purchase {
             return null;
     }
 
-    public static HashMap<Integer, Purchase> select(String conditions)
+    public static ArrayList<Purchase> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Purchase> items=new HashMap<Integer, Purchase>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Purchase(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Purchase> items=new ArrayList<Purchase>();
+            while (rs.next()) {
+                items.add(new Purchase(rs));
+                    //items.put(rs.getInt("id"), new Purchase(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Purchase item,boolean withId)
     {
@@ -596,11 +596,9 @@ public class Purchase {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Purchase> items=Purchase.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Purchase> items=Purchase.select("");
+        for(Purchase item:items)
         {
-            Purchase item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Purchase.count(""));

@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -217,13 +216,13 @@ public class Stockentry {
     public static Stockentry getByName(String name)
     {
             HashMap<Integer,Stockentry> map=select(" name = '"+name+"'");
-            for(Stockentry item:map.values())return item;
+            for(Stockentry item:map)return item;
             return null;
     }	
     */
     public static Stockentry getById(Integer id) {
-            HashMap<Integer,Stockentry> map=select(" id = '"+id.toString()+"'");
-            for(Stockentry item:map.values())return item;
+            ArrayList<Stockentry> map=select(" id = '"+id.toString()+"'");
+            for(Stockentry item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -293,28 +292,29 @@ public class Stockentry {
             return null;
     }
 
-    public static HashMap<Integer, Stockentry> select(String conditions)
+    public static ArrayList<Stockentry> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Stockentry> items=new HashMap<Integer, Stockentry>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Stockentry(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Stockentry.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Stockentry> items=new ArrayList<Stockentry>();
+            while (rs.next()) {
+                items.add(new Stockentry(rs));
+                    //items.put(rs.getInt("id"), new Stockentry(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Stockentry.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Stockentry item,boolean withId)
     {
@@ -388,11 +388,9 @@ public class Stockentry {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Stockentry> items=Stockentry.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Stockentry> items=Stockentry.select("");
+        for(Stockentry item:items)
         {
-            Stockentry item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Stockentry.count(""));

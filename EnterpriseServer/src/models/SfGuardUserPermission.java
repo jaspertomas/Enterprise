@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -126,13 +125,13 @@ public class SfGuardUserPermission {
     public static SfGuardUserPermission getByName(String name)
     {
             HashMap<Long,SfGuardUserPermission> map=select(" name = '"+name+"'");
-            for(SfGuardUserPermission item:map.values())return item;
+            for(SfGuardUserPermission item:map)return item;
             return null;
     }	
     */
     public static SfGuardUserPermission getByUserId(Long user_id) {
-            HashMap<Long,SfGuardUserPermission> map=select(" user_id = '"+user_id.toString()+"'");
-            for(SfGuardUserPermission item:map.values())return item;
+            ArrayList<SfGuardUserPermission> map=select(" user_id = '"+user_id.toString()+"'");
+            for(SfGuardUserPermission item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -202,28 +201,29 @@ public class SfGuardUserPermission {
             return null;
     }
 
-    public static HashMap<Long, SfGuardUserPermission> select(String conditions)
+    public static ArrayList<SfGuardUserPermission> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Long, SfGuardUserPermission> items=new HashMap<Long, SfGuardUserPermission>();
-                while (rs.next()) {
-                    items.put(rs.getLong("user_id"), new SfGuardUserPermission(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(SfGuardUserPermission.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<SfGuardUserPermission> items=new ArrayList<SfGuardUserPermission>();
+            while (rs.next()) {
+                items.add(new SfGuardUserPermission(rs));
+                    //items.put(rs.getLong("user_id"), new SfGuardUserPermission(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(SfGuardUserPermission.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(SfGuardUserPermission item,boolean withId)
     {
@@ -297,11 +297,9 @@ public class SfGuardUserPermission {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Long,SfGuardUserPermission> items=SfGuardUserPermission.select("");
-        for(Long key:items.keySet())
+        ArrayList<SfGuardUserPermission> items=SfGuardUserPermission.select("");
+        for(SfGuardUserPermission item:items)
         {
-            SfGuardUserPermission item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(SfGuardUserPermission.count(""));

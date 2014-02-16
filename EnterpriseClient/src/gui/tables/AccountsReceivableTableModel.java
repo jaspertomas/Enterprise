@@ -86,14 +86,16 @@ import models.Purchase;
     public static AccountsReceivableTableModel buildTableModel(Integer page)
             throws SQLException {
         
-        String criteria=" 1 ";
+        String criteria=" status != 'Paid' order by invno ";
         
+//        if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
         maxpages=Double.valueOf(Math.ceil(Double.valueOf(Invoice.count(criteria))/maxrecordsperpage)).intValue();
         ArrayList<AccountsReceivable> data = new ArrayList<AccountsReceivable>();
 
 //        if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
-        for(Invoice item:Invoice.select(criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage).values()) {
+        for(Invoice item:Invoice.select(criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage)) {
             data.add(new AccountsReceivable(item.getDate(),item.getCustomerId(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
+            System.out.println(item.getInvno());
         }
         return new AccountsReceivableTableModel(data, columnNames);
 

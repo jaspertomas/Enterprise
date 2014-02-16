@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -139,13 +138,13 @@ public class Subsidiary {
     public static Subsidiary getByName(String name)
     {
             HashMap<Long,Subsidiary> map=select(" name = '"+name+"'");
-            for(Subsidiary item:map.values())return item;
+            for(Subsidiary item:map)return item;
             return null;
     }	
     */
     public static Subsidiary getById(Long id) {
-            HashMap<Long,Subsidiary> map=select(" id = '"+id.toString()+"'");
-            for(Subsidiary item:map.values())return item;
+            ArrayList<Subsidiary> map=select(" id = '"+id.toString()+"'");
+            for(Subsidiary item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -215,28 +214,29 @@ public class Subsidiary {
             return null;
     }
 
-    public static HashMap<Long, Subsidiary> select(String conditions)
+    public static ArrayList<Subsidiary> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Long, Subsidiary> items=new HashMap<Long, Subsidiary>();
-                while (rs.next()) {
-                    items.put(rs.getLong("id"), new Subsidiary(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Subsidiary.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Subsidiary> items=new ArrayList<Subsidiary>();
+            while (rs.next()) {
+                items.add(new Subsidiary(rs));
+                    //items.put(rs.getLong("id"), new Subsidiary(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Subsidiary.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Subsidiary item,boolean withId)
     {
@@ -310,11 +310,9 @@ public class Subsidiary {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Long,Subsidiary> items=Subsidiary.select("");
-        for(Long key:items.keySet())
+        ArrayList<Subsidiary> items=Subsidiary.select("");
+        for(Subsidiary item:items)
         {
-            Subsidiary item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Subsidiary.count(""));

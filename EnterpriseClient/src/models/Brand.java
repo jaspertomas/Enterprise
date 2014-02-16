@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -100,13 +99,13 @@ public class Brand {
     public static Brand getByName(String name)
     {
             HashMap<Integer,Brand> map=select(" name = '"+name+"'");
-            for(Brand item:map.values())return item;
+            for(Brand item:map)return item;
             return null;
     }	
     */
     public static Brand getById(Integer id) {
-            HashMap<Integer,Brand> map=select(" id = '"+id.toString()+"'");
-            for(Brand item:map.values())return item;
+            ArrayList<Brand> map=select(" id = '"+id.toString()+"'");
+            for(Brand item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -176,28 +175,29 @@ public class Brand {
             return null;
     }
 
-    public static HashMap<Integer, Brand> select(String conditions)
+    public static ArrayList<Brand> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Brand> items=new HashMap<Integer, Brand>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Brand(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Brand.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Brand> items=new ArrayList<Brand>();
+            while (rs.next()) {
+                items.add(new Brand(rs));
+                    //items.put(rs.getInt("id"), new Brand(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Brand.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Brand item,boolean withId)
     {
@@ -271,11 +271,9 @@ public class Brand {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Brand> items=Brand.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Brand> items=Brand.select("");
+        for(Brand item:items)
         {
-            Brand item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Brand.count(""));

@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -256,13 +255,13 @@ public class Purchasedetail {
     public static Purchasedetail getByName(String name)
     {
             HashMap<Integer,Purchasedetail> map=select(" name = '"+name+"'");
-            for(Purchasedetail item:map.values())return item;
+            for(Purchasedetail item:map)return item;
             return null;
     }	
     */
     public static Purchasedetail getById(Integer id) {
-            HashMap<Integer,Purchasedetail> map=select(" id = '"+id.toString()+"'");
-            for(Purchasedetail item:map.values())return item;
+            ArrayList<Purchasedetail> map=select(" id = '"+id.toString()+"'");
+            for(Purchasedetail item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -332,28 +331,29 @@ public class Purchasedetail {
             return null;
     }
 
-    public static HashMap<Integer, Purchasedetail> select(String conditions)
+    public static ArrayList<Purchasedetail> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Purchasedetail> items=new HashMap<Integer, Purchasedetail>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Purchasedetail(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Purchasedetail.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Purchasedetail> items=new ArrayList<Purchasedetail>();
+            while (rs.next()) {
+                items.add(new Purchasedetail(rs));
+                    //items.put(rs.getInt("id"), new Purchasedetail(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Purchasedetail.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Purchasedetail item,boolean withId)
     {
@@ -427,11 +427,9 @@ public class Purchasedetail {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Purchasedetail> items=Purchasedetail.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Purchasedetail> items=Purchasedetail.select("");
+        for(Purchasedetail item:items)
         {
-            Purchasedetail item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Purchasedetail.count(""));

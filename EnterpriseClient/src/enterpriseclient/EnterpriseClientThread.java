@@ -42,7 +42,7 @@ public class EnterpriseClientThread extends Thread {
     public static final Integer accessdenied=1;
     public static final Integer accessgranted=2;
     public static final Integer loggedout=3;
-    private static Integer state=0;
+    //private static Integer state=0;
     
     static String username, password;
     static Socket kkSocket=null;
@@ -55,7 +55,7 @@ public class EnterpriseClientThread extends Thread {
     static BufferedReader stdIn;
     static ClientProtocol protocol ;
     
-    static boolean loginsuccess=false;
+    static boolean connectsuccess=false;
 
     public EnterpriseClientThread(JFrame frame, String hostname, String username, String password){
         super("ClientThread");
@@ -69,63 +69,47 @@ public class EnterpriseClientThread extends Thread {
             out = new PrintWriter(kkSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
             //JOptionPane.showMessageDialog(frame, "Login successful");
-            loginsuccess=true;
             
-            FormManager.getInstance().getFrmLogin().setVisible(false);
-            FormManager.getInstance().getFrmMain().setVisible(true);
-            FormManager.getInstance().getFrmAccountsReceivable().setVisible(true);
-            
+            stdIn = new BufferedReader(new InputStreamReader(System.in));
+            protocol = new ClientProtocol(username,password);
+            out.println(protocol.getLoginString());
+
+            connectsuccess=true;
             
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(frame, "Login failed: Server not found or "+ex.getMessage());
-            loginsuccess=false;
+            JOptionPane.showMessageDialog(frame, "Cannot connect to server: "+ex.getMessage());
+            connectsuccess=false;
         }
 
             
-        stdIn = new BufferedReader(new InputStreamReader(System.in));
-        protocol = new ClientProtocol(username,password);
-        out.println(protocol.getLoginString());
 
     }
     
     public void run()
     {
-        if(!loginsuccess)return;
+        if(!connectsuccess)return;
         
         try {
             Map<String,Object> outputmap;
-            String outputaction;
             
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("Server: " + fromServer);
                 
-                //get and format protocol output
-                //if protocol response is null, there is nothing to reply to the client
-                fromClient = null;
-                outputaction=null;
+                //process message to server
                 outputmap = protocol.processInput(fromServer);
+                
+                //if client has a response
                 if(outputmap!=null)
                 {
-                    outputaction=(String)outputmap.get("action");
+                    //convert that response to Json
                     fromClient = JsonHelper.toJson(outputmap);
+                    
+                    System.out.println("Client: " + fromClient);
+                    
+                    //and send it to the server
+                    out.println(fromClient);
                 }
                         
-                if (fromClient != null) {
-                    System.out.println("Client: " + fromClient);
-                    out.println(fromClient);
-
-                    if (outputaction.contentEquals("accessdenied"))
-                    {
-                        state=accessdenied; 
-                        break;
-                    }
-                    if (outputaction.contentEquals("exit"))
-                    {
-                        state=loggedout;
-                        break;
-                    }
-                
-                }
             }
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);

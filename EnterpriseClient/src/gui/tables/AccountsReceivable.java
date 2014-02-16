@@ -7,7 +7,7 @@ package gui.tables;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
+import java.util.ArrayList;
 import models.Customer;
 import models.Terms;
 
@@ -23,7 +23,7 @@ public class AccountsReceivable {
     String amount;
     String status;
     
-    HashMap<Integer,Terms> termslist=null;
+    ArrayList<Terms> termslist=null;
     
     private void initializeTermsList()
     {

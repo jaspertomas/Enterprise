@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -113,13 +112,13 @@ public class Terms {
     public static Terms getByName(String name)
     {
             HashMap<Integer,Terms> map=select(" name = '"+name+"'");
-            for(Terms item:map.values())return item;
+            for(Terms item:map)return item;
             return null;
     }	
     */
     public static Terms getById(Integer id) {
-            HashMap<Integer,Terms> map=select(" id = '"+id.toString()+"'");
-            for(Terms item:map.values())return item;
+            ArrayList<Terms> map=select(" id = '"+id.toString()+"'");
+            for(Terms item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -189,28 +188,29 @@ public class Terms {
             return null;
     }
 
-    public static HashMap<Integer, Terms> select(String conditions)
+    public static ArrayList<Terms> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Terms> items=new HashMap<Integer, Terms>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Terms(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Terms.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Terms> items=new ArrayList<Terms>();
+            while (rs.next()) {
+                items.add(new Terms(rs));
+                    //items.put(rs.getInt("id"), new Terms(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Terms.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Terms item,boolean withId)
     {
@@ -284,11 +284,9 @@ public class Terms {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Terms> items=Terms.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Terms> items=Terms.select("");
+        for(Terms item:items)
         {
-            Terms item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Terms.count(""));

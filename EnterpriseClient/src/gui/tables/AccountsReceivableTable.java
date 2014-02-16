@@ -38,6 +38,8 @@ public class AccountsReceivableTable extends JPanel {
 //            table = new JTable();
 
             tableModel = AccountsReceivableTableModel.buildTableModel();
+            maxpages=tableModel.getMaxpages();//this is calculated by buildTableModel
+            
             table = new JTable(tableModel);
             //JOptionPane.showMessageDialog(null, new JScrollPane(table));
             //tableModel.addTableModelListener(new InteractiveTableModelListener(table));

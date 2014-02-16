@@ -2,6 +2,7 @@ package enterpriseclient;
 //Thanks to: http://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html
 
 import constants.Constants;
+import gui.FormManager;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import java.sql.Statement;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import utils.JsonHelper;
 import utils.Sha1Helper;
 
@@ -76,9 +78,9 @@ public class ClientProtocol {
 
     public Map<String,Object> processInput(String theInput) {
         if(theInput==null)return null;
-        Map<String,Object> map=null;
+        Map<String,Object> inputmap=null;
         try {
-            map=JsonHelper.toMap(theInput);
+            inputmap=JsonHelper.toMap(theInput);
         } catch (IOException ex) {
             Logger.getLogger(ClientProtocol.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -86,16 +88,16 @@ public class ClientProtocol {
         String theOutput = null;
 
         //validation
-        if(map==null)return null;
-        if(!map.containsKey("program"))return null;
-        if(!map.containsKey("action"))return null;
-        if(!map.containsKey("data"))return null;
+        if(inputmap==null)return null;
+        if(!inputmap.containsKey("program"))return null;
+        if(!inputmap.containsKey("action"))return null;
+        if(!inputmap.containsKey("data"))return null;
 
-        String program=(String)map.get("program");
+        String program=(String)inputmap.get("program");
         if(!program.contentEquals(Constants.programname))return null;
 
-        action=(String)map.get("action");
-        Map<String,String> data=(Map<String,String>)map.get("data");
+        action=(String)inputmap.get("action");
+        Map<String,String> data=(Map<String,String>)inputmap.get("data");
 
 
 
@@ -114,6 +116,10 @@ public class ClientProtocol {
             System.out.println("Login Successful");
             //theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"exit\", \"data\": {}}";
 
+            FormManager.getInstance().getFrmLogin().setVisible(false);
+            FormManager.getInstance().getFrmMain().setVisible(true);
+            FormManager.getInstance().getFrmAccountsReceivable().setVisible(true);
+
             //reply nothing
             theOutput=null;
         }
@@ -121,6 +127,7 @@ public class ClientProtocol {
         {
             System.out.println("Login Failed");
             theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"exit\", \"data\": {}}";
+            JOptionPane.showMessageDialog(null, "Login failed: Invalid username or password");
         }
 
 

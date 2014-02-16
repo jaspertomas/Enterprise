@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -152,13 +151,13 @@ public class SfGuardRememberKey {
     public static SfGuardRememberKey getByName(String name)
     {
             HashMap<Long,SfGuardRememberKey> map=select(" name = '"+name+"'");
-            for(SfGuardRememberKey item:map.values())return item;
+            for(SfGuardRememberKey item:map)return item;
             return null;
     }	
     */
     public static SfGuardRememberKey getById(Long id) {
-            HashMap<Long,SfGuardRememberKey> map=select(" id = '"+id.toString()+"'");
-            for(SfGuardRememberKey item:map.values())return item;
+            ArrayList<SfGuardRememberKey> map=select(" id = '"+id.toString()+"'");
+            for(SfGuardRememberKey item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -228,28 +227,29 @@ public class SfGuardRememberKey {
             return null;
     }
 
-    public static HashMap<Long, SfGuardRememberKey> select(String conditions)
+    public static ArrayList<SfGuardRememberKey> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Long, SfGuardRememberKey> items=new HashMap<Long, SfGuardRememberKey>();
-                while (rs.next()) {
-                    items.put(rs.getLong("id"), new SfGuardRememberKey(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(SfGuardRememberKey.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<SfGuardRememberKey> items=new ArrayList<SfGuardRememberKey>();
+            while (rs.next()) {
+                items.add(new SfGuardRememberKey(rs));
+                    //items.put(rs.getLong("id"), new SfGuardRememberKey(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(SfGuardRememberKey.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(SfGuardRememberKey item,boolean withId)
     {
@@ -323,11 +323,9 @@ public class SfGuardRememberKey {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Long,SfGuardRememberKey> items=SfGuardRememberKey.select("");
-        for(Long key:items.keySet())
+        ArrayList<SfGuardRememberKey> items=SfGuardRememberKey.select("");
+        for(SfGuardRememberKey item:items)
         {
-            SfGuardRememberKey item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(SfGuardRememberKey.count(""));

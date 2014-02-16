@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -126,13 +125,13 @@ public class Employee {
     public static Employee getByName(String name)
     {
             HashMap<Integer,Employee> map=select(" name = '"+name+"'");
-            for(Employee item:map.values())return item;
+            for(Employee item:map)return item;
             return null;
     }	
     */
     public static Employee getById(Integer id) {
-            HashMap<Integer,Employee> map=select(" id = '"+id.toString()+"'");
-            for(Employee item:map.values())return item;
+            ArrayList<Employee> map=select(" id = '"+id.toString()+"'");
+            for(Employee item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -202,28 +201,29 @@ public class Employee {
             return null;
     }
 
-    public static HashMap<Integer, Employee> select(String conditions)
+    public static ArrayList<Employee> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Employee> items=new HashMap<Integer, Employee>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Employee(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Employee> items=new ArrayList<Employee>();
+            while (rs.next()) {
+                items.add(new Employee(rs));
+                    //items.put(rs.getInt("id"), new Employee(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Employee item,boolean withId)
     {
@@ -297,11 +297,9 @@ public class Employee {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Employee> items=Employee.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Employee> items=Employee.select("");
+        for(Employee item:items)
         {
-            Employee item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Employee.count(""));

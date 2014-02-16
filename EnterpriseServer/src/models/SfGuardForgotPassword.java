@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -152,13 +151,13 @@ public class SfGuardForgotPassword {
     public static SfGuardForgotPassword getByName(String name)
     {
             HashMap<Long,SfGuardForgotPassword> map=select(" name = '"+name+"'");
-            for(SfGuardForgotPassword item:map.values())return item;
+            for(SfGuardForgotPassword item:map)return item;
             return null;
     }	
     */
     public static SfGuardForgotPassword getById(Long id) {
-            HashMap<Long,SfGuardForgotPassword> map=select(" id = '"+id.toString()+"'");
-            for(SfGuardForgotPassword item:map.values())return item;
+            ArrayList<SfGuardForgotPassword> map=select(" id = '"+id.toString()+"'");
+            for(SfGuardForgotPassword item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -228,28 +227,29 @@ public class SfGuardForgotPassword {
             return null;
     }
 
-    public static HashMap<Long, SfGuardForgotPassword> select(String conditions)
+    public static ArrayList<SfGuardForgotPassword> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Long, SfGuardForgotPassword> items=new HashMap<Long, SfGuardForgotPassword>();
-                while (rs.next()) {
-                    items.put(rs.getLong("id"), new SfGuardForgotPassword(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(SfGuardForgotPassword.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<SfGuardForgotPassword> items=new ArrayList<SfGuardForgotPassword>();
+            while (rs.next()) {
+                items.add(new SfGuardForgotPassword(rs));
+                    //items.put(rs.getLong("id"), new SfGuardForgotPassword(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(SfGuardForgotPassword.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(SfGuardForgotPassword item,boolean withId)
     {
@@ -323,11 +323,9 @@ public class SfGuardForgotPassword {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Long,SfGuardForgotPassword> items=SfGuardForgotPassword.select("");
-        for(Long key:items.keySet())
+        ArrayList<SfGuardForgotPassword> items=SfGuardForgotPassword.select("");
+        for(SfGuardForgotPassword item:items)
         {
-            SfGuardForgotPassword item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(SfGuardForgotPassword.count(""));

@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -100,13 +99,13 @@ public class Warehouse {
     public static Warehouse getByName(String name)
     {
             HashMap<Integer,Warehouse> map=select(" name = '"+name+"'");
-            for(Warehouse item:map.values())return item;
+            for(Warehouse item:map)return item;
             return null;
     }	
     */
     public static Warehouse getById(Integer id) {
-            HashMap<Integer,Warehouse> map=select(" id = '"+id.toString()+"'");
-            for(Warehouse item:map.values())return item;
+            ArrayList<Warehouse> map=select(" id = '"+id.toString()+"'");
+            for(Warehouse item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -176,28 +175,29 @@ public class Warehouse {
             return null;
     }
 
-    public static HashMap<Integer, Warehouse> select(String conditions)
+    public static ArrayList<Warehouse> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Warehouse> items=new HashMap<Integer, Warehouse>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Warehouse(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Warehouse.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Warehouse> items=new ArrayList<Warehouse>();
+            while (rs.next()) {
+                items.add(new Warehouse(rs));
+                    //items.put(rs.getInt("id"), new Warehouse(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Warehouse.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Warehouse item,boolean withId)
     {
@@ -271,11 +271,9 @@ public class Warehouse {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Warehouse> items=Warehouse.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Warehouse> items=Warehouse.select("");
+        for(Warehouse item:items)
         {
-            Warehouse item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Warehouse.count(""));

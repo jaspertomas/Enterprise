@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -295,13 +294,13 @@ public class Customer {
     public static Customer getByName(String name)
     {
             HashMap<Integer,Customer> map=select(" name = '"+name+"'");
-            for(Customer item:map.values())return item;
+            for(Customer item:map)return item;
             return null;
     }	
     */
     public static Customer getById(Integer id) {
-            HashMap<Integer,Customer> map=select(" id = '"+id.toString()+"'");
-            for(Customer item:map.values())return item;
+            ArrayList<Customer> map=select(" id = '"+id.toString()+"'");
+            for(Customer item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -371,28 +370,29 @@ public class Customer {
             return null;
     }
 
-    public static HashMap<Integer, Customer> select(String conditions)
+    public static ArrayList<Customer> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Customer> items=new HashMap<Integer, Customer>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Customer(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Customer> items=new ArrayList<Customer>();
+            while (rs.next()) {
+                items.add(new Customer(rs));
+                    //items.put(rs.getInt("id"), new Customer(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Customer item,boolean withId)
     {
@@ -466,11 +466,9 @@ public class Customer {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Customer> items=Customer.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Customer> items=Customer.select("");
+        for(Customer item:items)
         {
-            Customer item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Customer.count(""));

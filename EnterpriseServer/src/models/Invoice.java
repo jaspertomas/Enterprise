@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlDBHelper;
@@ -477,13 +476,13 @@ public class Invoice {
     public static Invoice getByName(String name)
     {
             HashMap<Integer,Invoice> map=select(" name = '"+name+"'");
-            for(Invoice item:map.values())return item;
+            for(Invoice item:map)return item;
             return null;
     }	
     */
     public static Invoice getById(Integer id) {
-            HashMap<Integer,Invoice> map=select(" id = '"+id.toString()+"'");
-            for(Invoice item:map.values())return item;
+            ArrayList<Invoice> map=select(" id = '"+id.toString()+"'");
+            for(Invoice item:map)return item;
             return null;
     }
     //-----------database functions--------------
@@ -553,28 +552,29 @@ public class Invoice {
             return null;
     }
 
-    public static HashMap<Integer, Invoice> select(String conditions)
+    public static ArrayList<Invoice> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
                 rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
 
-                HashMap<Integer, Invoice> items=new HashMap<Integer, Invoice>();
-                while (rs.next()) {
-                    items.put(rs.getInt("id"), new Invoice(rs));
-                }
-                return items;
-            } catch (SQLException ex) {
-                Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-                return null;
+            ArrayList<Invoice> items=new ArrayList<Invoice>();
+            while (rs.next()) {
+                items.add(new Invoice(rs));
+                    //items.put(rs.getInt("id"), new Invoice(rs));
             }
-
+            return items;
+        } catch (SQLException ex) {
+            Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return null;
+        }
     }
+
     //-----------database helper functions--------------
     public static String implodeValues(Invoice item,boolean withId)
     {
@@ -648,11 +648,9 @@ public class Invoice {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        HashMap<Integer,Invoice> items=Invoice.select("");
-        for(Integer key:items.keySet())
+        ArrayList<Invoice> items=Invoice.select("");
+        for(Invoice item:items)
         {
-            Invoice item=items.get(key);
-            System.out.println(key);
             System.out.println(item);
         }
         System.out.println(Invoice.count(""));
