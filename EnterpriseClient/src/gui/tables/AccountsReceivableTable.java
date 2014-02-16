@@ -17,14 +17,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 
-public class InteractiveForm extends JPanel {
+public class AccountsReceivableTable extends JPanel {
 
 
     protected JTable table;
     protected JScrollPane scroller;
-    protected InteractiveTableModel tableModel;
+    protected AccountsReceivableTableModel tableModel;
 
-    public InteractiveForm() {
+    public AccountsReceivableTable() {
         initComponent();
 //        tableModel.addRows();
         tableModel.fireTableDataChanged();
@@ -37,20 +37,21 @@ public class InteractiveForm extends JPanel {
         try {
 //            table = new JTable();
 
-            tableModel = InteractiveTableModel.buildTableModel();
+            tableModel = AccountsReceivableTableModel.buildTableModel();
             table = new JTable(tableModel);
             //JOptionPane.showMessageDialog(null, new JScrollPane(table));
             //tableModel.addTableModelListener(new InteractiveTableModelListener(table));
             //table.setModel(tableModel);
             //table.setSurrendersFocusOnKeystroke(true);
         } catch (SQLException ex) {
-            Logger.getLogger(InteractiveForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountsReceivableTable.class.getName()).log(Level.SEVERE, null, ex);
         }
  
 
         scroller = new javax.swing.JScrollPane(table);
         table.setPreferredScrollableViewportSize(new java.awt.Dimension(500, 300));
-//        TableColumn hidden = table.getColumnModel().getColumn(InteractiveTableModel.HIDDEN_INDEX);
+        TableColumn datecolumn = table.getColumnModel().getColumn(0);
+        datecolumn.setPreferredWidth(75);
 //        hidden.setMinWidth(2);
 //        hidden.setPreferredWidth(2);
 //        hidden.setMaxWidth(2);

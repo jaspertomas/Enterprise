@@ -68,7 +68,7 @@ public class EnterpriseClientThread extends Thread {
             kkSocket = new Socket(hostName, portNumber);
             out = new PrintWriter(kkSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
-            JOptionPane.showMessageDialog(frame, "Login successful");
+            //JOptionPane.showMessageDialog(frame, "Login successful");
             loginsuccess=true;
             
             FormManager.getInstance().getFrmLogin().setVisible(false);

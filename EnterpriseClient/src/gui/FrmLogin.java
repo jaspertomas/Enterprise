@@ -74,11 +74,14 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel3.setText("Password:");
 
         txtUsername.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtUsername.setText("admin");
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsernameActionPerformed(evt);
             }
         });
+
+        txtPassword.setText("admin");
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel4.setText("Server IP:");
@@ -101,19 +104,18 @@ public class FrmLogin extends javax.swing.JFrame {
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(jLabel1)
-                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                                    .add(jLabel4)
-                                    .add(38, 38, 38)
-                                    .add(txtHostname, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
-                                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                        .add(jLabel2)
-                                        .add(jLabel3))
-                                    .add(18, 18, 18)
-                                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                        .add(txtUsername, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                                        .add(txtPassword)))))
+                            .add(layout.createSequentialGroup()
+                                .add(jLabel4)
+                                .add(38, 38, 38)
+                                .add(txtHostname))
+                            .add(layout.createSequentialGroup()
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(jLabel2)
+                                    .add(jLabel3))
+                                .add(18, 18, 18)
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                    .add(txtUsername, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                    .add(txtPassword))))
                         .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(28, 28, 28)

@@ -4,6 +4,8 @@
  */
 package gui;
 
+import javax.swing.WindowConstants;
+
 /**
  *
  * @author jaspertomas
@@ -15,6 +17,7 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
      */
     public FrmAccountsReceivable() {
         initComponents();
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 
     /**
@@ -26,29 +29,57 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        interactiveForm1 = new gui.tables.InteractiveForm();
+        interactiveForm1 = new gui.tables.AccountsReceivableTable();
+        jLabel1 = new javax.swing.JLabel();
+        cmdExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
+        jLabel1.setText("TMC Program: Accounts Receivable");
+
+        cmdExit.setText("Exit");
+        cmdExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdExitActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(51, 51, 51)
-                .add(interactiveForm1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel1)
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(interactiveForm1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(0, 0, Short.MAX_VALUE)
+                        .add(cmdExit)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(48, 48, 48)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jLabel1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(interactiveForm1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 27, Short.MAX_VALUE)
+                .add(cmdExit)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cmdExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdExitActionPerformed
+        setVisible(false);
+        FormManager.getInstance().getFrmMain().setVisible(true);
+    }//GEN-LAST:event_cmdExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -85,6 +116,8 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private gui.tables.InteractiveForm interactiveForm1;
+    private javax.swing.JButton cmdExit;
+    private gui.tables.AccountsReceivableTable interactiveForm1;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
