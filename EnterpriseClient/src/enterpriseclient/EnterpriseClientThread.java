@@ -150,7 +150,4 @@ public class EnterpriseClientThread extends Thread {
     {
         out.println(string);
     }
-
-
-
 }

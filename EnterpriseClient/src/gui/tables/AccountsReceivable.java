@@ -7,6 +7,9 @@ package gui.tables;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import models.Customer;
+import models.Terms;
 
 /**
  *
@@ -19,15 +22,26 @@ public class AccountsReceivable {
     String terms;
     String amount;
     String status;
+    
+    HashMap<Integer,Terms> termslist=null;
+    
+    private void initializeTermsList()
+    {
+        if(termslist==null)
+        {
+            termslist=Terms.select("");
+        }
+    }
 
     SimpleDateFormat sdf= new SimpleDateFormat("MMM dd, yyyy");
-    public AccountsReceivable(Date date, String customer, String invoice, Integer terms, BigDecimal amount, String status) {
+    public AccountsReceivable(Date date, Integer customer_id, String invoice, Integer terms_id, BigDecimal amount, String status) {
+        initializeTermsList();
+        
         this.date = sdf.format(date);
-        this.customer = customer;
+        this.customer = "";if(customer_id!=null && customer_id!=0)this.customer=Customer.getById(customer_id).getName();
         this.invoice = invoice;
-        this.terms = terms.toString();
-        this.amount = "0"; 
-            if(amount!=null)this.amount=amount.toString();
+        this.terms = "";if(terms_id!=null && terms_id!=0)this.terms=termslist.get(terms_id).getName();
+        this.amount = "0";if(amount!=null)this.amount=amount.toString();
         this.status = status;
     }
 

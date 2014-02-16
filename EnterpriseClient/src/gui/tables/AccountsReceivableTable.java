@@ -52,6 +52,8 @@ public class AccountsReceivableTable extends JPanel {
         table.setPreferredScrollableViewportSize(new java.awt.Dimension(500, 300));
         TableColumn datecolumn = table.getColumnModel().getColumn(0);
         datecolumn.setPreferredWidth(75);
+//        TableColumn amountcolumn = table.getColumnModel().getColumn(4);
+//        amountcolumn.set
 //        hidden.setMinWidth(2);
 //        hidden.setPreferredWidth(2);
 //        hidden.setMaxWidth(2);

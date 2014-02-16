@@ -78,8 +78,8 @@ import models.Purchase;
         ArrayList<AccountsReceivable> data = new ArrayList<AccountsReceivable>();
 
         //if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
-        for(Invoice item:Invoice.select("").values()) {
-            data.add(new AccountsReceivable(item.getDate(),item.getCustomerName(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
+        for(Invoice item:Invoice.select(" 1 limit 10").values()) {
+            data.add(new AccountsReceivable(item.getDate(),item.getCustomerId(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
         }
         return new AccountsReceivableTableModel(data, columnNames);
 
