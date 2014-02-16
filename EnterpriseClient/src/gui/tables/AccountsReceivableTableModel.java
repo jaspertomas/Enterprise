@@ -72,6 +72,12 @@ import models.Purchase;
 
 
     private static Integer maxrecordsperpage=50;
+    private static Integer maxpages=0;
+
+    public static Integer getMaxpages() {
+        return maxpages;
+    }
+    
     public static AccountsReceivableTableModel buildTableModel()
             throws SQLException {
 
@@ -79,11 +85,14 @@ import models.Purchase;
     }    
     public static AccountsReceivableTableModel buildTableModel(Integer page)
             throws SQLException {
-
+        
+        String criteria=" 1 ";
+        
+        maxpages=Double.valueOf(Math.ceil(Double.valueOf(Invoice.count(criteria))/maxrecordsperpage)).intValue();
         ArrayList<AccountsReceivable> data = new ArrayList<AccountsReceivable>();
 
 //        if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
-        for(Invoice item:Invoice.select(" 1 limit "+(maxrecordsperpage*page)+","+maxrecordsperpage).values()) {
+        for(Invoice item:Invoice.select(criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage).values()) {
             data.add(new AccountsReceivable(item.getDate(),item.getCustomerId(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
         }
         return new AccountsReceivableTableModel(data, columnNames);

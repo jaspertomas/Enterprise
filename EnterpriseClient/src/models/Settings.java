@@ -170,6 +170,25 @@ public class Settings {
             ex.printStackTrace();
         }
     }
+    public static Integer count(String conditions)
+    {
+        if(conditions.isEmpty())conditions = "1";
+            Connection conn=MySqlDBHelper.getInstance().getConnection();
+            Statement st = null;
+            ResultSet rs = null;
+            try { 
+                st = conn.createStatement();
+                rs = st.executeQuery("SELECT count(*) from "+tablename+" where "+conditions);
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+            }
+            return null;
+    }
+
     public static HashMap<Integer, Settings> select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
@@ -259,7 +278,7 @@ public class Settings {
     public static void main(String args[])
     {
         String database="tmcprogram3";
-        String url = "jdbc:mysql://localhost:3306/"+database;
+        String url = "jdbc:mysql://localhost:3306/"+database+"?zeroDateTimeBehavior=convertToNull";
         String username="root";
         String password = "password";
 
@@ -272,5 +291,6 @@ public class Settings {
             System.out.println(key);
             System.out.println(item);
         }
+        System.out.println(Settings.count(""));
     } 
 }

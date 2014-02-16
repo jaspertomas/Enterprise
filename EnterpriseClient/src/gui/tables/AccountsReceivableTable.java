@@ -97,15 +97,17 @@ public class AccountsReceivableTable extends JPanel {
     {
         try {
             tableModel=AccountsReceivableTableModel.buildTableModel(page);
+            maxpages=tableModel.getMaxpages();//this is calculated by buildTableModel
             table.setModel(tableModel);
             //tableModel.fireTableDataChanged();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+    private Integer maxpages=0;
     public Integer getMaxPages()
     {
-        return 10;
+        return maxpages;
     }
     
 }
