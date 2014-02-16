@@ -4,8 +4,10 @@
  */
 package enterpriseclient;
 
+import constants.Constants;
 import gui.FrmLogin;
 import gui.FormManager;
+import utils.MySqlDBHelper;
 
 /**
  *
@@ -13,6 +15,11 @@ import gui.FormManager;
  */
 public class EnterpriseClient {
     public static void main(String args[]) {
+
+        
+        boolean result=MySqlDBHelper.init(Constants.url, Constants.username, Constants.password);            
+
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

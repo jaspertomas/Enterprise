@@ -27,6 +27,7 @@ public class FormManager {
     FrmInvoice frmInvoice;
     FrmPurchaseOrder frmPurchaseOrder;
     FrmDSR frmDSR;
+    FrmAccountsReceivable frmAccountsReceivable;
     
     private FormManager(){
         frmLogin=new FrmLogin();
@@ -34,6 +35,7 @@ public class FormManager {
         frmInvoice=new FrmInvoice();
         frmPurchaseOrder=new FrmPurchaseOrder();
         frmDSR=new FrmDSR();
+        frmAccountsReceivable=new FrmAccountsReceivable();
     }
     //-----------------END-SINGLETON-------------------
 
@@ -57,6 +59,10 @@ public class FormManager {
 
     public FrmDSR getFrmDSR() {
         return frmDSR;
+    }
+
+    public FrmAccountsReceivable getFrmAccountsReceivable() {
+        return frmAccountsReceivable;
     }
     
     

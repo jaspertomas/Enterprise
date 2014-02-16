@@ -73,6 +73,7 @@ public class EnterpriseClientThread extends Thread {
             
             FormManager.getInstance().getFrmLogin().setVisible(false);
             FormManager.getInstance().getFrmMain().setVisible(true);
+            FormManager.getInstance().getFrmAccountsReceivable().setVisible(true);
             
             
         } catch (IOException ex) {
