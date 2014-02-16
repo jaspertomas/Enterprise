@@ -71,14 +71,19 @@ import models.Purchase;
      }
 
 
-
+    private static Integer maxrecordsperpage=50;
     public static AccountsReceivableTableModel buildTableModel()
+            throws SQLException {
+
+        return buildTableModel(0);
+    }    
+    public static AccountsReceivableTableModel buildTableModel(Integer page)
             throws SQLException {
 
         ArrayList<AccountsReceivable> data = new ArrayList<AccountsReceivable>();
 
-        //if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
-        for(Invoice item:Invoice.select(" 1 limit 10").values()) {
+//        if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
+        for(Invoice item:Invoice.select(" 1 limit "+(maxrecordsperpage*page)+","+maxrecordsperpage).values()) {
             data.add(new AccountsReceivable(item.getDate(),item.getCustomerId(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
         }
         return new AccountsReceivableTableModel(data, columnNames);

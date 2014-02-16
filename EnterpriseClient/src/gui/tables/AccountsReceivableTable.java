@@ -44,7 +44,7 @@ public class AccountsReceivableTable extends JPanel {
             //table.setModel(tableModel);
             //table.setSurrendersFocusOnKeystroke(true);
         } catch (SQLException ex) {
-            Logger.getLogger(AccountsReceivableTable.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
  
 
@@ -93,6 +93,21 @@ public class AccountsReceivableTable extends JPanel {
             return c;
         }
     }
+    public void gotoPage(Integer page)
+    {
+        try {
+            tableModel=AccountsReceivableTableModel.buildTableModel(page);
+            table.setModel(tableModel);
+            //tableModel.fireTableDataChanged();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public Integer getMaxPages()
+    {
+        return 10;
+    }
+    
 }
 class InteractiveTableModelListener implements TableModelListener {
 
