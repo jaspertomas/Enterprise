@@ -234,7 +234,7 @@ public class Notes {
                     return rs.getInt(1);
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Notes.class.getName()).log(Level.SEVERE, null, ex);
                 ex.printStackTrace();
             }
             return null;

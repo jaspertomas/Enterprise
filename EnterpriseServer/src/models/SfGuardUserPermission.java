@@ -195,7 +195,7 @@ public class SfGuardUserPermission {
                     return rs.getInt(1);
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SfGuardUserPermission.class.getName()).log(Level.SEVERE, null, ex);
                 ex.printStackTrace();
             }
             return null;

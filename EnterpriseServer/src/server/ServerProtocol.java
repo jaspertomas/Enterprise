@@ -37,9 +37,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import models.Purchase;
 import utils.JsonHelper;
 import utils.MySqlDBHelper;
 
@@ -123,6 +123,17 @@ public class ServerProtocol {
                 }
 
 
+            }
+            else if(action.contentEquals("dbselect"))
+            {
+                String table=(String)data.get("table");
+                String criteria=(String)data.get("criteria");
+                
+                if(table.contentEquals("Purchase"))
+                {
+                    ArrayList<Purchase> result=Purchase.select(criteria);
+                    
+                }
             }
 
 

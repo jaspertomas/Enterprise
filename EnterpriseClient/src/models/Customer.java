@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.MySqlDBHelper;
 
 public class Customer {
     //------------FIELDS-----------
@@ -271,17 +270,17 @@ public class Customer {
 
             return values;
     }
-    public void delete()
-    {
-            Customer.delete(this);
-    }
-    public void save()
-    {
-            if(id==null || id==0)
-                    Customer.insert(this);
-            else
-                    Customer.update(this);
-    }
+//    public void delete()
+//    {
+//            Customer.delete(this);
+//    }
+//    public void save()
+//    {
+//            if(id==null || id==0)
+//                    Customer.insert(this);
+//            else
+//                    Customer.update(this);
+//    }
     public String toString()
     {
             return id.toString();
@@ -298,100 +297,100 @@ public class Customer {
             return null;
     }	
     */
-    public static Customer getById(Integer id) {
-            ArrayList<Customer> map=select(" id = '"+id.toString()+"'");
-            for(Customer item:map)return item;
-            return null;
-    }
+//    public static Customer getById(Integer id) {
+//            ArrayList<Customer> map=select(" id = '"+id.toString()+"'");
+//            for(Customer item:map)return item;
+//            return null;
+//    }
     //-----------database functions--------------
 
-    public static void delete(Integer id)
-    {
-        Connection conn=MySqlDBHelper.getInstance().getConnection();            
-        Statement st = null;
-        try { 
-            st = conn.createStatement();
-            st.executeUpdate("delete from "+tablename+" where id = '"+id.toString()+"';");
-        } catch (SQLException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
-    }
-    public static void delete(Customer item)
-    {
-        delete(item.getId());
-    }
-    public static void insert(Customer item)
-    {
-        Connection conn=MySqlDBHelper.getInstance().getConnection();            
-        Statement st = null;
-        boolean withid=false;
-        try { 
-            st = conn.createStatement();
-            //for tables with integer primary key
-            if(fieldtypes[0].contentEquals("integer"))withid=false;                
-            //for tables with varchar primary key
-            else if(fieldtypes[0].contains("varchar"))withid=true;                
-            st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
-        } catch (SQLException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
-    }
-    public static void update(Customer item)
-    {
-        Connection conn=MySqlDBHelper.getInstance().getConnection();            
-        Statement st = null;
-        boolean withid=false;
-        try { 
-            st = conn.createStatement();
-            st.executeUpdate("update "+tablename+" set "+implodeFieldsWithValues(item,false)+" where id = '"+item.getId().toString()+"';");
-        } catch (SQLException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
-    }
-    public static Integer count(String conditions)
-    {
-        if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
-                rs = st.executeQuery("SELECT count(*) from "+tablename+" where "+conditions);
-                while (rs.next()) {
-                    return rs.getInt(1);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-            }
-            return null;
-    }
-
-    public static ArrayList<Customer> select(String conditions)
-    {
-        if(conditions.isEmpty())conditions = "1";
-        Connection conn=MySqlDBHelper.getInstance().getConnection();
-        Statement st = null;
-        ResultSet rs = null;
-        try { 
-            st = conn.createStatement();
-                rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
-
-            ArrayList<Customer> items=new ArrayList<Customer>();
-            while (rs.next()) {
-                items.add(new Customer(rs));
-                    //items.put(rs.getInt("id"), new Customer(rs));
-            }
-            return items;
-        } catch (SQLException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-            return null;
-        }
-    }
+//    public static void delete(Integer id)
+//    {
+//        Connection conn=MySqlDBHelper.getInstance().getConnection();            
+//        Statement st = null;
+//        try { 
+//            st = conn.createStatement();
+//            st.executeUpdate("delete from "+tablename+" where id = '"+id.toString()+"';");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+//            ex.printStackTrace();
+//        }
+//    }
+//    public static void delete(Customer item)
+//    {
+//        delete(item.getId());
+//    }
+//    public static void insert(Customer item)
+//    {
+//        Connection conn=MySqlDBHelper.getInstance().getConnection();            
+//        Statement st = null;
+//        boolean withid=false;
+//        try { 
+//            st = conn.createStatement();
+//            //for tables with integer primary key
+//            if(fieldtypes[0].contentEquals("integer"))withid=false;                
+//            //for tables with varchar primary key
+//            else if(fieldtypes[0].contains("varchar"))withid=true;                
+//            st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+//            ex.printStackTrace();
+//        }
+//    }
+//    public static void update(Customer item)
+//    {
+//        Connection conn=MySqlDBHelper.getInstance().getConnection();            
+//        Statement st = null;
+//        boolean withid=false;
+//        try { 
+//            st = conn.createStatement();
+//            st.executeUpdate("update "+tablename+" set "+implodeFieldsWithValues(item,false)+" where id = '"+item.getId().toString()+"';");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+//            ex.printStackTrace();
+//        }
+//    }
+//    public static Integer count(String conditions)
+//    {
+//        if(conditions.isEmpty())conditions = "1";
+//            Connection conn=MySqlDBHelper.getInstance().getConnection();
+//            Statement st = null;
+//            ResultSet rs = null;
+//            try { 
+//                st = conn.createStatement();
+//                rs = st.executeQuery("SELECT count(*) from "+tablename+" where "+conditions);
+//                while (rs.next()) {
+//                    return rs.getInt(1);
+//                }
+//            } catch (SQLException ex) {
+//                Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+//                ex.printStackTrace();
+//            }
+//            return null;
+//    }
+//
+//    public static ArrayList<Customer> select(String conditions)
+//    {
+//        if(conditions.isEmpty())conditions = "1";
+//        Connection conn=MySqlDBHelper.getInstance().getConnection();
+//        Statement st = null;
+//        ResultSet rs = null;
+//        try { 
+//            st = conn.createStatement();
+//                rs = st.executeQuery("SELECT * from "+tablename+" where "+conditions);
+//
+//            ArrayList<Customer> items=new ArrayList<Customer>();
+//            while (rs.next()) {
+//                items.add(new Customer(rs));
+//                    //items.put(rs.getInt("id"), new Customer(rs));
+//            }
+//            return items;
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+//            ex.printStackTrace();
+//            return null;
+//        }
+//    }
 
     //-----------database helper functions--------------
     public static String implodeValues(Customer item,boolean withId)
@@ -457,20 +456,20 @@ public class Customer {
     {
             return "DROP TABLE IF EXISTS "+tablename;
     }
-    public static void main(String args[])
-    {
-        String database="tmcprogram3";
-        String url = "jdbc:mysql://localhost:3306/"+database+"?zeroDateTimeBehavior=convertToNull";
-        String username="root";
-        String password = "password";
-
-        boolean result=MySqlDBHelper.init(url, username, password);            
-
-        ArrayList<Customer> items=Customer.select("");
-        for(Customer item:items)
-        {
-            System.out.println(item);
-        }
-        System.out.println(Customer.count(""));
-    } 
+//    public static void main(String args[])
+//    {
+//        String database="tmcprogram3";
+//        String url = "jdbc:mysql://localhost:3306/"+database+"?zeroDateTimeBehavior=convertToNull";
+//        String username="root";
+//        String password = "password";
+//
+//        boolean result=MySqlDBHelper.init(url, username, password);            
+//
+//        ArrayList<Customer> items=Customer.select("");
+//        for(Customer item:items)
+//        {
+//            System.out.println(item);
+//        }
+//        System.out.println(Customer.count(""));
+//    } 
 }

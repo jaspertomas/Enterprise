@@ -3,16 +3,14 @@ package enterpriseclient;
 
 import constants.Constants;
 import gui.FormManager;
+import gui.tables.PurchaseData;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import models.Purchase;
 import utils.JsonHelper;
 import utils.Sha1Helper;
 
@@ -128,6 +126,30 @@ public class ClientProtocol {
             System.out.println("Login Failed");
             theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"exit\", \"data\": {}}";
             JOptionPane.showMessageDialog(null, "Login failed: Invalid username or password");
+        }
+        else if(action.contentEquals("accessdenied"))
+        {
+            System.out.println("Login Failed");
+            theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"exit\", \"data\": {}}";
+            JOptionPane.showMessageDialog(null, "Login failed: Invalid username or password");
+        }
+        else if(action.contentEquals("dbresult"))
+        {
+            String result=(String)data.get("result");
+            System.out.println(result);
+            try {
+                Map<String,Object> resultobjects= JsonHelper.toMap(result);
+                for(Object object:resultobjects.values())
+                {
+                    PurchaseData.list.add((Purchase)object);
+                }
+                for(Purchase p:PurchaseData.list)
+                    System.out.println(p.getInvno());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+                
+            
         }
 
 

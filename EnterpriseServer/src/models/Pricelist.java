@@ -195,7 +195,7 @@ public class Pricelist {
                     return rs.getInt(1);
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Pricelist.class.getName()).log(Level.SEVERE, null, ex);
                 ex.printStackTrace();
             }
             return null;

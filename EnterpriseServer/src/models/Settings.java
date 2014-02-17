@@ -182,7 +182,7 @@ public class Settings {
                     return rs.getInt(1);
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
                 ex.printStackTrace();
             }
             return null;

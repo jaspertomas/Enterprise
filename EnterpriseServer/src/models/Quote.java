@@ -299,7 +299,7 @@ public class Quote {
                     return rs.getInt(1);
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Quote.class.getName()).log(Level.SEVERE, null, ex);
                 ex.printStackTrace();
             }
             return null;

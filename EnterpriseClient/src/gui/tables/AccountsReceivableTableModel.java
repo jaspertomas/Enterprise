@@ -82,22 +82,22 @@ import models.Purchase;
         ArrayList<AccountsReceivable> data = new ArrayList<AccountsReceivable>();
         return new AccountsReceivableTableModel(data, columnNames);
     }    
-    public static AccountsReceivableTableModel buildTableModel(Integer page)
-            throws SQLException {
-        
-        String criteria=" status != 'Paid' order by invno ";
-        
-//        if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
-        maxpages=Double.valueOf(Math.ceil(Double.valueOf(Invoice.count(criteria))/maxrecordsperpage)).intValue();
-        ArrayList<AccountsReceivable> data = new ArrayList<AccountsReceivable>();
-
-//        if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
-        for(Invoice item:Invoice.select(criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage)) {
-            data.add(new AccountsReceivable(item.getDate(),item.getCustomerId(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
-            System.out.println(item.getInvno());
-        }
-        return new AccountsReceivableTableModel(data, columnNames);
-
-    }    
+//    public static AccountsReceivableTableModel buildTableModel(Integer page)
+//            throws SQLException {
+//        
+//        String criteria=" status != 'Paid' order by invno ";
+//        
+////        if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
+//        maxpages=Double.valueOf(Math.ceil(Double.valueOf(Invoice.count(criteria))/maxrecordsperpage)).intValue();
+//        ArrayList<AccountsReceivable> data = new ArrayList<AccountsReceivable>();
+//
+////        if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
+//        for(Invoice item:Invoice.select(criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage)) {
+//            data.add(new AccountsReceivable(item.getDate(),item.getCustomerId(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
+//            System.out.println(item.getInvno());
+//        }
+//        return new AccountsReceivableTableModel(data, columnNames);
+//
+//    }    
  }
 

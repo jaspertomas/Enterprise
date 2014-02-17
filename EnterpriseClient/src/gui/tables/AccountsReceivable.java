@@ -23,24 +23,24 @@ public class AccountsReceivable {
     String amount;
     String status;
     
-    ArrayList<Terms> termslist=null;
+//    ArrayList<Terms> termslist=null;
     
-    private void initializeTermsList()
-    {
-        if(termslist==null)
-        {
-            termslist=Terms.select("");
-        }
-    }
+//    private void initializeTermsList()
+//    {
+//        if(termslist==null)
+//        {
+//            termslist=Terms.select("");
+//        }
+//    }
 
     SimpleDateFormat sdf= new SimpleDateFormat("MMM dd, yyyy");
     public AccountsReceivable(Date date, Integer customer_id, String invoice, Integer terms_id, BigDecimal amount, String status) {
-        initializeTermsList();
+        //initializeTermsList();
         
         this.date = sdf.format(date);
-        this.customer = "";if(customer_id!=null && customer_id!=0)this.customer=Customer.getById(customer_id).getName();
+        this.customer = "";//if(customer_id!=null && customer_id!=0)this.customer=Customer.getById(customer_id).getName();
         this.invoice = invoice;
-        this.terms = "";if(terms_id!=null && terms_id!=0)this.terms=termslist.get(terms_id).getName();
+        this.terms = "";//if(terms_id!=null && terms_id!=0)this.terms=termslist.get(terms_id).getName();
         this.amount = "0";if(amount!=null)this.amount=amount.toString();
         this.status = status;
     }

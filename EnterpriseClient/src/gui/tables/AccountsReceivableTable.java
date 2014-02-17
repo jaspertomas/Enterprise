@@ -98,14 +98,22 @@ public class AccountsReceivableTable extends JPanel {
     }
     public void gotoPage(Integer page)
     {
-        try {
-            tableModel=AccountsReceivableTableModel.buildTableModel(page);
-            maxpages=tableModel.getMaxpages();//this is calculated by buildTableModel
-            table.setModel(tableModel);
-            //tableModel.fireTableDataChanged();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        //...
+        //formulate query
+        //ask ClientProtocol to fetch data from server as JSON
+        //complete with terms and customers
+        //ClientProtocol receives data, calls this table via FrmAccountsReceivable singleton
+        //and tells it to display the data received via another function
+        
+        
+//        try {
+//            tableModel=AccountsReceivableTableModel.buildTableModel(page);
+//            maxpages=tableModel.getMaxpages();//this is calculated by buildTableModel
+//            table.setModel(tableModel);
+//            //tableModel.fireTableDataChanged();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
     }
     private Integer maxpages=0;
     public Integer getMaxPages()
