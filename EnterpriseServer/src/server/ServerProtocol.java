@@ -38,8 +38,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
-import models.Purchase;
+import models.query.AccountsReceivable;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.map.ObjectMapper;
 import utils.JsonHelper;
 import utils.MySqlDBHelper;
 
@@ -68,22 +71,22 @@ public class ServerProtocol {
         
         if(theInput==null)return null;
         try {
-            Map<String,Object> map=null;
-                map=JsonHelper.toMap(theInput);
+            Map<String,Object> inputmap=null;
+                inputmap=JsonHelper.toMap(theInput);
 
             String theOutput = null;
 
             //validation
-            if(map==null)return null;
-            if(!map.containsKey("program"))return null;
-            if(!map.containsKey("action"))return null;
-            if(!map.containsKey("data"))return null;
+            if(inputmap==null)return null;
+            if(!inputmap.containsKey("program"))return null;
+            if(!inputmap.containsKey("action"))return null;
+            if(!inputmap.containsKey("data"))return null;
 
-            String program=(String)map.get("program");
+            String program=(String)inputmap.get("program");
             if(!program.contentEquals(Constants.programname))return null;
 
-            String action=(String)map.get("action");
-            Map<String,String> data=(Map<String,String>)map.get("data");
+            String action=(String)inputmap.get("action");
+            Map<String,String> data=(Map<String,String>)inputmap.get("data");
 
 
 
@@ -129,10 +132,21 @@ public class ServerProtocol {
                 String table=(String)data.get("table");
                 String criteria=(String)data.get("criteria");
                 
-                if(table.contentEquals("Purchase"))
+                if(table.contentEquals("AccountsReceivable"))
                 {
-                    ArrayList<Purchase> result=Purchase.select(criteria);
+                    ArrayList<AccountsReceivable> result=AccountsReceivable.select(criteria);
+                    HashMap<String,String> hashmap=new HashMap<String,String>();
                     
+                    ObjectMapper mapper = JsonHelper.mapper;
+
+                    Integer counter=0;
+                    for(AccountsReceivable item:result)
+                    {
+                        hashmap.put(counter.toString(), mapper.writeValueAsString(item));
+                        counter++;
+                    }
+                    //theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"accessdenied\", \"data\": {\"result\": "+JsonHelper.toJson(map)+"}}";
+                    theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"dbresult\", \"data\": {\"result\":"+mapper.writeValueAsString(hashmap) +"}}";
                 }
             }
 

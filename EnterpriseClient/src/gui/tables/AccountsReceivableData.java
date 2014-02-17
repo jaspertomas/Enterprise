@@ -5,6 +5,7 @@
 package gui.tables;
 
 import java.util.ArrayList;
+import models.query.AccountsReceivable;
 
 /**
  *

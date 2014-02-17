@@ -32,6 +32,11 @@ public class JsonHelper {
     }
     
     public static ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+    public static Map<String,String> toStringMap(String json) throws IOException {
+        Map<String,String> userData = mapper.readValue(json, Map.class);
+//            Map<String,String> name=(Map<String,String>)userData.get("name");
+        return userData;
+    }
     public static Map<String,Object> toMap(String json) throws IOException {
         Map<String,Object> userData = mapper.readValue(json, Map.class);
 //            Map<String,String> name=(Map<String,String>)userData.get("name");

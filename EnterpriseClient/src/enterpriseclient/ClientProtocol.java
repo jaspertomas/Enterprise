@@ -3,14 +3,14 @@ package enterpriseclient;
 
 import constants.Constants;
 import gui.FormManager;
-import gui.tables.PurchaseData;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import models.Purchase;
+import models.query.AccountsReceivable;
+import org.codehaus.jackson.map.ObjectMapper;
 import utils.JsonHelper;
 import utils.Sha1Helper;
 
@@ -95,7 +95,7 @@ public class ClientProtocol {
         if(!program.contentEquals(Constants.programname))return null;
 
         action=(String)inputmap.get("action");
-        Map<String,String> data=(Map<String,String>)inputmap.get("data");
+        Map<String,Object> data=(Map<String,Object>)inputmap.get("data");
 
 
 
@@ -135,19 +135,43 @@ public class ClientProtocol {
         }
         else if(action.contentEquals("dbresult"))
         {
-            String result=(String)data.get("result");
-            System.out.println(result);
             try {
-                Map<String,Object> resultobjects= JsonHelper.toMap(result);
-                for(Object object:resultobjects.values())
+
+                ObjectMapper mapper = JsonHelper.mapper;
+                String valuestring;
+                AccountsReceivable item;                    
+
+                Map<String,Object> result=(Map<String,Object>)data.get("result");
+
+                for(String key:result.keySet())
                 {
-                    PurchaseData.list.add((Purchase)object);
+                    System.out.println(key);
+                    valuestring=(String)result.get(key);
+                    System.out.println(valuestring);
+                    item=mapper.readValue(valuestring, AccountsReceivable.class);
+                    //String resultstring=(String)testmap.get("result");
+                    System.out.println(item.getInvoice());
                 }
-                for(Purchase p:PurchaseData.list)
-                    System.out.println(p.getInvno());
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+            
+            
+//            
+//            
+//            String result=(String)data.get("result");
+//            System.out.println(result);
+//            try {
+//                Map<String,Object> resultobjects= JsonHelper.toMap(result);
+//                for(Object object:resultobjects.values())
+//                {
+//                    PurchaseData.list.add((Purchase)object);
+//                }
+//                for(Purchase p:PurchaseData.list)
+//                    System.out.println(p.getInvno());
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
                 
             
         }

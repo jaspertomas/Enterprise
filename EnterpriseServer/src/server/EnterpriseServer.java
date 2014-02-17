@@ -58,7 +58,7 @@ public class EnterpriseServer {
     
     private static boolean dbConnect()
     {
-        String url = "jdbc:mysql://localhost:3306/tmcuser";
+        String url = "jdbc:mysql://localhost:3306/tmcprogram3?zeroDateTimeBehavior=convertToNull";
         String user = "root";
         String password = "password";
         

@@ -3,11 +3,9 @@
  */
 package gui.tables;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
-import models.Invoice;
-import models.Purchase;
+import models.query.AccountsReceivable;
 
  public class AccountsReceivableTableModel extends AbstractTableModel {
      public static final int TITLE_INDEX = 0;
