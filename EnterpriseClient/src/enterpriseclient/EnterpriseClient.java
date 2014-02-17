@@ -17,7 +17,7 @@ public class EnterpriseClient {
     public static void main(String args[]) {
 
         
-        boolean result=MySqlDBHelper.init(Constants.url, Constants.username, Constants.password);            
+//        boolean result=MySqlDBHelper.init(Constants.url, Constants.username, Constants.password);            
 
         
         /* Set the Nimbus look and feel */
