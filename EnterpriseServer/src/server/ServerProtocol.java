@@ -38,10 +38,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import models.query.AccountsReceivable;
-import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
 import utils.JsonHelper;
 import utils.MySqlDBHelper;
@@ -135,18 +133,11 @@ public class ServerProtocol {
                 if(table.contentEquals("AccountsReceivable"))
                 {
                     ArrayList<AccountsReceivable> result=AccountsReceivable.select(criteria);
-                    HashMap<String,String> hashmap=new HashMap<String,String>();
                     
                     ObjectMapper mapper = JsonHelper.mapper;
-
-                    Integer counter=0;
-                    for(AccountsReceivable item:result)
-                    {
-                        hashmap.put(counter.toString(), mapper.writeValueAsString(item));
-                        counter++;
-                    }
                     //theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"accessdenied\", \"data\": {\"result\": "+JsonHelper.toJson(map)+"}}";
-                    theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"dbresult\", \"data\": {\"result\":"+mapper.writeValueAsString(hashmap) +"}}";
+                    theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"dbresult\", \"data\": {\"result\":\""+mapper.writeValueAsString(result).replace("\"", "\\\"") +"\"}}";//
+                    System.out.println(theOutput);
                 }
             }
 

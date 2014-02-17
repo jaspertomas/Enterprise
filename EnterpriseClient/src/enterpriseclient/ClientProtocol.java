@@ -5,11 +5,13 @@ import constants.Constants;
 import gui.FormManager;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.query.AccountsReceivable;
+import models.query.AccountsReceivableList;
 import org.codehaus.jackson.map.ObjectMapper;
 import utils.JsonHelper;
 import utils.Sha1Helper;
@@ -135,26 +137,38 @@ public class ClientProtocol {
         }
         else if(action.contentEquals("dbresult"))
         {
-            try {
+//            try {
 
                 ObjectMapper mapper = JsonHelper.mapper;
                 String valuestring;
-                AccountsReceivable item;                    
+                AccountsReceivable item;            
+                
+                System.out.println(data.get("result").toString());
 
-                Map<String,Object> result=(Map<String,Object>)data.get("result");
-
-                for(String key:result.keySet())
+                String resultstring=(String)data.get("result");
+            try {
+                ArrayList<AccountsReceivable> result;
+                result = mapper.readValue(resultstring, AccountsReceivableList.class);
+                for(AccountsReceivable ar:result)
                 {
-                    System.out.println(key);
-                    valuestring=(String)result.get(key);
-                    System.out.println(valuestring);
-                    item=mapper.readValue(valuestring, AccountsReceivable.class);
-                    //String resultstring=(String)testmap.get("result");
-                    System.out.println(item.getInvoice());
+                    System.out.println(ar.getInvoice());
                 }
+                
             } catch (IOException ex) {
-                ex.printStackTrace();
+                Logger.getLogger(ClientProtocol.class.getName()).log(Level.SEVERE, null, ex);
             }
+//                AccountsReceivableList result=(AccountsReceivableList)data.get("result");
+//
+//                for(String key:result.keySet())
+//                {
+//                    valuestring=(String)result.get(key);
+//                    item=mapper.readValue(valuestring, AccountsReceivable.class);
+//                    System.out.println(item.getInvoice());
+//                    ///todo
+//                }
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
             
             
 //            

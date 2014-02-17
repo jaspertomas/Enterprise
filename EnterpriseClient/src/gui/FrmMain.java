@@ -163,7 +163,7 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_cmdAccountsReceivableActionPerformed
 
     private void cmdTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdTestActionPerformed
-        ClientProtocol.sendDbSelect("AccountsReceivable"," 1 limit 1");
+        ClientProtocol.sendDbSelect("AccountsReceivable"," 1 limit 2");
     }//GEN-LAST:event_cmdTestActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
