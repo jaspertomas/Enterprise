@@ -33,6 +33,7 @@ public class FrmMain extends javax.swing.JFrame {
         cmdPurchaseOrder = new javax.swing.JButton();
         cmdInvoice = new javax.swing.JButton();
         cmdDSR = new javax.swing.JButton();
+        cmdAccountsReceivable = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,6 +68,14 @@ public class FrmMain extends javax.swing.JFrame {
             }
         });
 
+        cmdAccountsReceivable.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        cmdAccountsReceivable.setText("Accounts Receivable");
+        cmdAccountsReceivable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdAccountsReceivableActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,12 +90,15 @@ public class FrmMain extends javax.swing.JFrame {
                     .add(jLabel1)
                     .add(layout.createSequentialGroup()
                         .add(29, 29, 29)
-                        .add(cmdPurchaseOrder)
-                        .add(18, 18, 18)
-                        .add(cmdInvoice)
-                        .add(18, 18, 18)
-                        .add(cmdDSR)))
-                .addContainerGap(482, Short.MAX_VALUE))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(cmdAccountsReceivable)
+                            .add(layout.createSequentialGroup()
+                                .add(cmdPurchaseOrder)
+                                .add(18, 18, 18)
+                                .add(cmdInvoice)
+                                .add(18, 18, 18)
+                                .add(cmdDSR)))))
+                .addContainerGap(443, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -98,7 +110,9 @@ public class FrmMain extends javax.swing.JFrame {
                     .add(cmdPurchaseOrder)
                     .add(cmdInvoice)
                     .add(cmdDSR))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 167, Short.MAX_VALUE)
+                .add(33, 33, 33)
+                .add(cmdAccountsReceivable, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 79, Short.MAX_VALUE)
                 .add(cmdLogout)
                 .addContainerGap())
         );
@@ -114,20 +128,30 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void cmdPurchaseOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPurchaseOrderActionPerformed
         //setVisible(false);
+        FormManager.getInstance().getFrmPurchaseOrder().setLocation(200, 200);
         FormManager.getInstance().getFrmPurchaseOrder().setVisible(true);
     }//GEN-LAST:event_cmdPurchaseOrderActionPerformed
 
     private void cmdInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdInvoiceActionPerformed
         //setVisible(false);
+        FormManager.getInstance().getFrmInvoice().setLocation(200, 200);
         FormManager.getInstance().getFrmInvoice().setVisible(true);
     }//GEN-LAST:event_cmdInvoiceActionPerformed
 
     private void cmdDSRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdDSRActionPerformed
         //setVisible(false);
+        FormManager.getInstance().getFrmDSR().setLocation(200, 200);
         FormManager.getInstance().getFrmDSR().setVisible(true);
     }//GEN-LAST:event_cmdDSRActionPerformed
 
+    private void cmdAccountsReceivableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAccountsReceivableActionPerformed
+        //setVisible(false);
+        FormManager.getInstance().getFrmAccountsReceivable().setLocation(200, 200);
+        FormManager.getInstance().getFrmAccountsReceivable().setVisible(true);
+    }//GEN-LAST:event_cmdAccountsReceivableActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cmdAccountsReceivable;
     private javax.swing.JButton cmdDSR;
     private javax.swing.JButton cmdInvoice;
     private javax.swing.JButton cmdLogout;

@@ -78,10 +78,9 @@ import models.Purchase;
         return maxpages;
     }
     
-    public static AccountsReceivableTableModel buildTableModel()
-            throws SQLException {
-
-        return buildTableModel(0);
+    public static AccountsReceivableTableModel buildTableModel() {
+        ArrayList<AccountsReceivable> data = new ArrayList<AccountsReceivable>();
+        return new AccountsReceivableTableModel(data, columnNames);
     }    
     public static AccountsReceivableTableModel buildTableModel(Integer page)
             throws SQLException {

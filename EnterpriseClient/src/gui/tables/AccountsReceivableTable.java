@@ -23,6 +23,7 @@ public class AccountsReceivableTable extends JPanel {
     protected JTable table;
     protected JScrollPane scroller;
     protected AccountsReceivableTableModel tableModel;
+    
 
     public AccountsReceivableTable() {
         initComponent();
@@ -34,7 +35,7 @@ public class AccountsReceivableTable extends JPanel {
     
 
     public void initComponent() {
-        try {
+//        try {
 //            table = new JTable();
 
             tableModel = AccountsReceivableTableModel.buildTableModel();
@@ -45,9 +46,9 @@ public class AccountsReceivableTable extends JPanel {
             //tableModel.addTableModelListener(new InteractiveTableModelListener(table));
             //table.setModel(tableModel);
             //table.setSurrendersFocusOnKeystroke(true);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
  
 
         scroller = new javax.swing.JScrollPane(table);

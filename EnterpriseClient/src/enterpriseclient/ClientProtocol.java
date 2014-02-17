@@ -118,7 +118,7 @@ public class ClientProtocol {
 
             FormManager.getInstance().getFrmLogin().setVisible(false);
             FormManager.getInstance().getFrmMain().setVisible(true);
-            FormManager.getInstance().getFrmAccountsReceivable().setVisible(true);
+            //FormManager.getInstance().getFrmAccountsReceivable().setVisible(true);
 
             //reply nothing
             theOutput=null;
@@ -192,5 +192,8 @@ public class ClientProtocol {
     {
         EnterpriseClientThread.send("{\"program\": \"enterpriseprogram\", \"action\":\"exit\", \"data\": {}}");
     }
-    
+    public static void sendDbSelect(String table,String criteria)
+    {
+        EnterpriseClientThread.send("{\"program\": \"enterpriseprogram\", \"action\":\"dbselect\", \"data\": {\"table\": \""+table+"\", \"criteria\":\""+criteria+"\"}}");
+    }
 }
