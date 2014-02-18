@@ -62,25 +62,25 @@ public class AccountsReceivableTable extends JPanel {
                 final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 
                 String v=(String)tableModel.getValueAt(row, 1).toString();
-//                System.out.println("row="+row+",column="+column+",content="+v.toString());
 
                 if(v.toString().contentEquals("Cash"))
                 {
                     if(isSelected)
                     {
-                        c.setBackground(Color.GRAY);
-                        c.setForeground(Color.RED);
+                        c.setBackground(Color.BLACK);
+                        c.setForeground(Color.YELLOW);
                     }
                     else
                     {
-                        c.setBackground(Color.RED);
+                        c.setBackground(Color.YELLOW);
                         c.setForeground(Color.BLACK);
                     }
                 }
                 else 
+                {
                     if(isSelected)
                     {
-                        c.setBackground(Color.GRAY);
+                        c.setBackground(Color.BLACK);
                         c.setForeground(Color.WHITE);
                     }
                     else
@@ -88,9 +88,7 @@ public class AccountsReceivableTable extends JPanel {
                         c.setBackground(Color.WHITE);
                         c.setForeground(Color.BLACK);
                     }
-                    
-                    
-                
+                }
                 return c;
             }
         });        
