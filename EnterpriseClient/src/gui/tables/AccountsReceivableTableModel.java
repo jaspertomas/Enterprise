@@ -16,7 +16,7 @@ import models.query.AccountsReceivable;
      public static final int HIDDEN_INDEX = 3;
 
      protected static String[] columnNames = {
-        "Date", "Customer", "Invoice", "Terms", "Amount", "Status"
+        "Date", "Customer", "Invoice", "Terms", "Amount", "Status", "TermsDays", "Due", "Overdue"
     };     
      protected AccountsReceivable.RecordList data;
 
@@ -57,6 +57,12 @@ import models.query.AccountsReceivable;
                 return record.getAmount();
              case 5:
                 return record.getStatus();
+             case 6:
+                return record.getTermsdays();
+             case 7:
+                return record.getDue();
+             case 8:
+                return record.getOverdue();
              default:
                 return new Object();
          }

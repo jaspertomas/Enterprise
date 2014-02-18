@@ -49,6 +49,18 @@ public class AccountsReceivableTable extends JPanel {
 //        hidden.setPreferredWidth(2);
 //        hidden.setMaxWidth(2);
 //        hidden.setCellRenderer(new InteractiveRenderer(InteractiveTableModel.HIDDEN_INDEX));
+//        TableColumn termsdayscolumn = table.getColumnModel().getColumn(6);
+//        termsdayscolumn.setMinWidth(2);
+//        termsdayscolumn.setPreferredWidth(2);
+//        termsdayscolumn.setMaxWidth(2);
+//        TableColumn duecolumn = table.getColumnModel().getColumn(7);
+//        duecolumn.setMinWidth(2);
+//        duecolumn.setPreferredWidth(2);
+//        duecolumn.setMaxWidth(2);
+//        TableColumn overduecolumn = table.getColumnModel().getColumn(8);
+//        overduecolumn.setMinWidth(2);
+//        overduecolumn.setPreferredWidth(2);
+//        overduecolumn.setMaxWidth(2);
 
         setLayout(new BorderLayout());
         add(scroller, BorderLayout.CENTER);
@@ -61,9 +73,10 @@ public class AccountsReceivableTable extends JPanel {
             {
                 final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 
-                String v=(String)tableModel.getValueAt(row, 1).toString();
+                Boolean due=(Boolean)tableModel.getValueAt(row, 7);
+                Boolean overdue=(Boolean)tableModel.getValueAt(row, 8);
 
-                if(v.toString().contentEquals("Cash"))
+                if(due)
                 {
                     if(isSelected)
                     {
@@ -73,6 +86,19 @@ public class AccountsReceivableTable extends JPanel {
                     else
                     {
                         c.setBackground(Color.YELLOW);
+                        c.setForeground(Color.BLACK);
+                    }
+                }
+                else if(overdue)
+                {
+                    if(isSelected)
+                    {
+                        c.setBackground(Color.BLACK);
+                        c.setForeground(Color.PINK);
+                    }
+                    else
+                    {
+                        c.setBackground(Color.PINK);
                         c.setForeground(Color.BLACK);
                     }
                 }

@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.codehaus.jackson.JsonGenerationException;
@@ -49,6 +51,12 @@ public class AccountsReceivable {
     public String terms;
     public BigDecimal amount;
     public String status;
+    public Integer termsdays;
+    public Boolean due=false;
+    public Boolean overdue=false;
+
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private static Calendar cal = Calendar.getInstance();
 
     public AccountsReceivable() {
     }
@@ -61,6 +69,18 @@ public class AccountsReceivable {
             terms=rs.getString("terms.name");
             amount=rs.getBigDecimal("invoice.total");
             status=rs.getString("invoice.status");
+            termsdays=rs.getInt("terms.days");
+            
+            if(termsdays!=0)
+            {
+                java.util.Date today=new java.util.Date();
+                cal.setTime(date);
+                cal.add(Calendar.DAY_OF_MONTH, termsdays);
+                java.util.Date duedate = cal.getTime();
+                if(duedate.equals(today))due=true;
+                else if(duedate.before(today))overdue=true;
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(AccountsReceivable.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -126,6 +146,30 @@ public class AccountsReceivable {
 
     public void setStatus(String status) {
             this.status = status;
+    }
+
+    public Integer getTermsdays() {
+        return termsdays;
+    }
+
+    public void setTermsdays(Integer termsdays) {
+        this.termsdays = termsdays;
+    }
+
+    public Boolean getDue() {
+        return due;
+    }
+
+    public void setDue(Boolean due) {
+        this.due = due;
+    }
+
+    public Boolean getOverdue() {
+        return overdue;
+    }
+
+    public void setOverdue(Boolean overdue) {
+        this.overdue = overdue;
     }
 
 
@@ -260,7 +304,7 @@ public class AccountsReceivable {
         ResultSet rs = null;
         try { 
             st = conn.createStatement();
-                rs = st.executeQuery("SELECT invoice.id,invoice.date,customer.name,invoice.invno,terms.name,invoice.total,invoice.status,invoice.customer_id,invoice.terms_id FROM invoice LEFT OUTER JOIN customer ON invoice.customer_id=customer.id LEFT OUTER JOIN terms ON invoice.terms_id=terms.id where "+conditions);
+                rs = st.executeQuery("SELECT invoice.id,invoice.date,customer.name,invoice.invno,terms.name,invoice.total,invoice.status,terms.days,invoice.customer_id,invoice.terms_id FROM invoice LEFT OUTER JOIN customer ON invoice.customer_id=customer.id LEFT OUTER JOIN terms ON invoice.terms_id=terms.id where "+conditions);
 
             RecordList items=new RecordList();
             while (rs.next()) {

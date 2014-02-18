@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.JsonHelper;
@@ -42,6 +44,12 @@ public class AccountsReceivable {
     public String terms;
     public BigDecimal amount;
     public String status;
+    public Integer termsdays;
+    public Boolean due;
+    public Boolean overdue;
+
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private static Calendar cal = Calendar.getInstance();
 
     public AccountsReceivable() {
     }
@@ -54,6 +62,18 @@ public class AccountsReceivable {
             terms=rs.getString("terms.name");
             amount=rs.getBigDecimal("invoice.total");
             status=rs.getString("invoice.status");
+            termsdays=rs.getInt("terms.days");
+            
+            if(termsdays!=0)
+            {
+                java.util.Date today=new java.util.Date();
+                cal.setTime(date);
+                cal.add(Calendar.DAY_OF_MONTH, termsdays);
+                java.util.Date duedate = cal.getTime();
+                if(duedate.equals(today))due=true;
+                else if(duedate.before(today))overdue=true;
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(AccountsReceivable.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -119,6 +139,30 @@ public class AccountsReceivable {
 
     public void setStatus(String status) {
             this.status = status;
+    }
+
+    public Integer getTermsdays() {
+        return termsdays;
+    }
+
+    public void setTermsdays(Integer termsdays) {
+        this.termsdays = termsdays;
+    }
+
+    public Boolean getDue() {
+        return due;
+    }
+
+    public void setDue(Boolean due) {
+        this.due = due;
+    }
+
+    public Boolean getOverdue() {
+        return overdue;
+    }
+
+    public void setOverdue(Boolean overdue) {
+        this.overdue = overdue;
     }
 
 
