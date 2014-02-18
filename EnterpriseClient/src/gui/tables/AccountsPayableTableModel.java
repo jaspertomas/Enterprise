@@ -12,7 +12,7 @@ import models.query.AccountsPayable;
  public class AccountsPayableTableModel extends AbstractTableModel {
 
      protected static String[] columnNames = {
-        "Date", "Supplier", "Invoice", "Terms", "Amount", "Status", "TermsDays", "Due", "Overdue"
+        "Date", "Vendor", "Purchase", "Terms", "Amount", "Status", "TermsDays", "Due", "Overdue"
     };     
      protected AccountsPayable.RecordList data;
 
@@ -44,9 +44,9 @@ import models.query.AccountsPayable;
              case 0:
                 return record.getDate();
              case 1:
-                return record.getSupplier();
+                return record.getVendor();
              case 2:
-                return record.getInvoice();
+                return record.getPurchase();
              case 3:
                 return record.getTerms();
              case 4:
@@ -90,12 +90,12 @@ import models.query.AccountsPayable;
 //        String criteria=" status != 'Paid' order by invno ";
 //        
 ////        if(false)//uncomment this and recompile to allow editing of FrmAccountsPayable display
-//        maxpages=Double.valueOf(Math.ceil(Double.valueOf(Invoice.count(criteria))/maxrecordsperpage)).intValue();
+//        maxpages=Double.valueOf(Math.ceil(Double.valueOf(Purchase.count(criteria))/maxrecordsperpage)).intValue();
 //        AccountsPayable.RecordList data = new AccountsPayable.RecordList();
 //
 ////        if(false)//uncomment this and recompile to allow editing of FrmAccountsPayable display
-//        for(Invoice item:Invoice.select(criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage)) {
-//            data.add(new AccountsPayable(item.getDate(),item.getSupplierId(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
+//        for(Purchase item:Purchase.select(criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage)) {
+//            data.add(new AccountsPayable(item.getDate(),item.getVendorId(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
 //            System.out.println(item.getInvno());
 //        }
 //        return new AccountsPayableTableModel(data, columnNames);

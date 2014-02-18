@@ -164,7 +164,7 @@ public class AccountsPayableTable extends JPanel {
         //...
         //formulate query
         //ask ClientProtocol to fetch data from server as JSON
-        //complete with terms and suppliers
+        //complete with terms and vendors
         //ClientProtocol receives data, calls this table via FrmAccountsPayable singleton
         //and tells it to display the data received via another function
         String criteria=" status != 'Paid' ";

@@ -37,10 +37,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Map;
+import models.query.AccountsPayable;
 import models.query.AccountsReceivable;
-import org.codehaus.jackson.map.ObjectMapper;
 import utils.JsonHelper;
 import utils.MySqlDBHelper;
 
@@ -134,7 +133,13 @@ public class ServerProtocol {
                 {
                     Integer count=AccountsReceivable.count(criteria);
                     AccountsReceivable.RecordList result=AccountsReceivable.select(criteria);
-                    theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"dbresult\", \"data\": {\"result\":"+result.toEscapedJsonString()+",\"count\":"+count+"}}";//
+                    theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"dbresult\", \"data\": {\"result\":"+result.toEscapedJsonString()+",\"count\":"+count+",\"table\":\""+table+"\"}}";//
+                }
+                if(table.contentEquals("AccountsPayable"))
+                {
+                    Integer count=AccountsPayable.count(criteria);
+                    AccountsPayable.RecordList result=AccountsPayable.select(criteria);
+                    theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"dbresult\", \"data\": {\"result\":"+result.toEscapedJsonString()+",\"count\":"+count+",\"table\":\""+table+"\"}}";//
                 }
             }
 

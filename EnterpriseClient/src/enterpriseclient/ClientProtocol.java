@@ -3,6 +3,7 @@ package enterpriseclient;
 
 import constants.Constants;
 import gui.FormManager;
+import gui.FrmAccountsPayable;
 import gui.FrmAccountsReceivable;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import models.query.AccountsPayable;
 import models.query.AccountsReceivable;
 import utils.JsonHelper;
 import utils.Sha1Helper;
@@ -136,10 +138,20 @@ public class ClientProtocol {
         else if(action.contentEquals("dbresult"))
         {
             try {
+                String table=(String)data.get("table");
                 String resultstring=(String)data.get("result");
                 Integer count=(Integer)data.get("count");
-                AccountsReceivable.RecordList result=AccountsReceivable.RecordList.fromJsonString(resultstring);
-                FrmAccountsReceivable.getInstance().getTable().setData(result,count);
+                if(table.contentEquals("AccountsReceivable"))
+                {
+                    AccountsReceivable.RecordList result=AccountsReceivable.RecordList.fromJsonString(resultstring);
+                    FrmAccountsReceivable.getInstance().getTable().setData(result,count);
+                }
+                else if(table.contentEquals("AccountsPayable"))
+                {
+                    AccountsPayable.RecordList result=AccountsPayable.RecordList.fromJsonString(resultstring);
+                    FrmAccountsPayable.getInstance().getTable().setData(result,count);
+                }
+                
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

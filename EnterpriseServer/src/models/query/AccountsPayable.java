@@ -22,8 +22,8 @@ public class AccountsPayable {
     public static String[] fields={
             "id"
             ,"date"
-            ,"supplier"
-            ,"invoice"
+            ,"vendor"
+            ,"purchase"
             ,"terms"
             ,"amount"
             ,"status"
@@ -42,8 +42,8 @@ public class AccountsPayable {
 
     public Integer id;
     public Date date;
-    public String supplier;
-    public String invoice;
+    public String vendor;
+    public String purchase;
     public String terms;
     public BigDecimal amount;
     public String status;
@@ -58,13 +58,13 @@ public class AccountsPayable {
     }
     public AccountsPayable(ResultSet rs) {
         try {
-            id=rs.getInt("invoice.id");
-            date=rs.getDate("invoice.date");
-            supplier=rs.getString("supplier.name");
-            invoice=rs.getString("invoice.invno");
+            id=rs.getInt("purchase.id");
+            date=rs.getDate("purchase.date");
+            vendor=rs.getString("vendor.name");
+            purchase=rs.getString("purchase.invno");
             terms=rs.getString("terms.name");
-            amount=rs.getBigDecimal("invoice.total");
-            status=rs.getString("invoice.status");
+            amount=rs.getBigDecimal("purchase.total");
+            status=rs.getString("purchase.status");
             termsdays=rs.getInt("terms.days");
             
             if(termsdays!=0)
@@ -104,20 +104,20 @@ public class AccountsPayable {
             this.date = date;
     }
 
-    public String getSupplier() {
-            return supplier;
+    public String getVendor() {
+            return vendor;
     }
 
-    public void setSupplier(String supplier) {
-            this.supplier = supplier;
+    public void setVendor(String vendor) {
+            this.vendor = vendor;
     }
 
-    public String getInvoice() {
-            return invoice;
+    public String getPurchase() {
+            return purchase;
     }
 
-    public void setInvoice(String invoice) {
-            this.invoice = invoice;
+    public void setPurchase(String purchase) {
+            this.purchase = purchase;
     }
 
     public String getTerms() {
@@ -178,8 +178,8 @@ public class AccountsPayable {
             //add values for each field here
             values.add(id.toString());
             values.add(date.toString());
-            values.add(supplier);
-            values.add(invoice);
+            values.add(vendor);
+            values.add(purchase);
             values.add(terms);
             values.add(amount.toString());
             values.add(status);
@@ -281,7 +281,7 @@ public class AccountsPayable {
         ResultSet rs = null;
         try { 
             st = conn.createStatement();
-            rs = st.executeQuery("SELECT count(*) from invoice where "+conditions);
+            rs = st.executeQuery("SELECT count(*) from purchase where "+conditions);
             while (rs.next()) {
                 return rs.getInt(1);
             }
@@ -300,7 +300,7 @@ public class AccountsPayable {
         ResultSet rs = null;
         try { 
             st = conn.createStatement();
-                rs = st.executeQuery("SELECT invoice.id,invoice.date,supplier.name,invoice.invno,terms.name,invoice.total,invoice.status,terms.days,invoice.supplier_id,invoice.terms_id FROM invoice LEFT OUTER JOIN supplier ON invoice.supplier_id=supplier.id LEFT OUTER JOIN terms ON invoice.terms_id=terms.id where "+conditions);
+                rs = st.executeQuery("SELECT purchase.id,purchase.date,vendor.name,purchase.invno,terms.name,purchase.total,purchase.status,terms.days,purchase.vendor_id,purchase.terms_id FROM purchase LEFT OUTER JOIN vendor ON purchase.vendor_id=vendor.id LEFT OUTER JOIN terms ON purchase.terms_id=terms.id where "+conditions);
 
             RecordList items=new RecordList();
             while (rs.next()) {
