@@ -5,12 +5,8 @@ package gui.tables;
 
 import enterpriseclient.ClientProtocol;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.JPanel;
@@ -118,24 +114,25 @@ public class AccountsReceivableTable extends JPanel {
         tableModel.setData(list);
         System.out.println("count is "+count);
         maxpages=Double.valueOf(Math.ceil(Double.valueOf(count)/maxrecordsperpage)).intValue();
+        tableModel.setRowColour(1, Color.YELLOW);
         tableModel.fireTableDataChanged();
     }
 }
-class InteractiveTableModelListener implements TableModelListener {
-
-    JTable table;
-
-    InteractiveTableModelListener(JTable table) {
-        this.table = table;
-    }
-
-    public void tableChanged(TableModelEvent evt) {
-        if (evt.getType() == TableModelEvent.UPDATE) {
-            int column = evt.getColumn();
-            int row = evt.getFirstRow();
-            System.out.println("row: " + row + " column: " + column);
-            table.setColumnSelectionInterval(column+1 , column+1);
-            table.setRowSelectionInterval(row, row);
-        }
-    }
-}
+//class InteractiveTableModelListener implements TableModelListener {
+//
+//    JTable table;
+//
+//    InteractiveTableModelListener(JTable table) {
+//        this.table = table;
+//    }
+//
+//    public void tableChanged(TableModelEvent evt) {
+//        if (evt.getType() == TableModelEvent.UPDATE) {
+//            int column = evt.getColumn();
+//            int row = evt.getFirstRow();
+//            System.out.println("row: " + row + " column: " + column);
+//            table.setColumnSelectionInterval(column+1 , column+1);
+//            table.setRowSelectionInterval(row, row);
+//        }
+//    }
+//}

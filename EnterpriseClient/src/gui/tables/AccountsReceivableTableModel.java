@@ -3,7 +3,9 @@
  */
 package gui.tables;
 
-import java.util.ArrayList;
+import java.awt.Color;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import models.query.AccountsReceivable;
 
@@ -103,7 +105,20 @@ import models.query.AccountsReceivable;
         fireTableDataChanged();
     }
     
-    
-    
+
+    List<Color> rowColours = Arrays.asList(
+        Color.RED,
+        Color.GREEN,
+        Color.CYAN
+    );
+
+    public void setRowColour(int row, Color c) {
+        rowColours.set(row, c);
+        fireTableRowsUpdated(row, row);
+    }
+
+    public Color getRowColour(int row) {
+        return rowColours.get(row);
+    }
  }
 
