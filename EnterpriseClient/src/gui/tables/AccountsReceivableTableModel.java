@@ -106,19 +106,5 @@ import models.query.AccountsReceivable;
     }
     
 
-    List<Color> rowColours = Arrays.asList(
-        Color.RED,
-        Color.GREEN,
-        Color.CYAN
-    );
-
-    public void setRowColour(int row, Color c) {
-        rowColours.set(row, c);
-        fireTableRowsUpdated(row, row);
-    }
-
-    public Color getRowColour(int row) {
-        return rowColours.get(row);
-    }
  }
 

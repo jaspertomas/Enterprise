@@ -52,6 +52,48 @@ public class AccountsReceivableTable extends JPanel {
 
         setLayout(new BorderLayout());
         add(scroller, BorderLayout.CENTER);
+        
+        
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
+        {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+            {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                
+                String v=(String)tableModel.getValueAt(row, 1).toString();
+//                System.out.println("row="+row+",column="+column+",content="+v.toString());
+
+                if(v.toString().contentEquals("Cash"))
+                {
+                    if(isSelected)
+                    {
+                        c.setBackground(Color.GRAY);
+                        c.setForeground(Color.RED);
+                    }
+                    else
+                    {
+                        c.setBackground(Color.RED);
+                        c.setForeground(Color.BLACK);
+                    }
+                }
+                else 
+                    if(isSelected)
+                    {
+                        c.setBackground(Color.GRAY);
+                        c.setForeground(Color.WHITE);
+                    }
+                    else
+                    {
+                        c.setBackground(Color.WHITE);
+                        c.setForeground(Color.BLACK);
+                    }
+                    
+                    
+                
+                return c;
+            }
+        });        
     }
 
     public void highlightLastRow(int row) {
@@ -114,7 +156,7 @@ public class AccountsReceivableTable extends JPanel {
         tableModel.setData(list);
         System.out.println("count is "+count);
         maxpages=Double.valueOf(Math.ceil(Double.valueOf(count)/maxrecordsperpage)).intValue();
-        tableModel.setRowColour(1, Color.YELLOW);
+//        tableModel.setRowColour(1, Color.RED);
         tableModel.fireTableDataChanged();
     }
 }
