@@ -132,12 +132,8 @@ public class ServerProtocol {
                 
                 if(table.contentEquals("AccountsReceivable"))
                 {
-                    ArrayList<AccountsReceivable> result=AccountsReceivable.select(criteria);
-                    
-                    ObjectMapper mapper = JsonHelper.mapper;
-                    //theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"accessdenied\", \"data\": {\"result\": "+JsonHelper.toJson(map)+"}}";
-                    theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"dbresult\", \"data\": {\"result\":\""+mapper.writeValueAsString(result).replace("\"", "\\\"") +"\"}}";//
-                    System.out.println(theOutput);
+                    AccountsReceivable.RecordList result=AccountsReceivable.select(criteria);
+                    theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"dbresult\", \"data\": {\"result\":"+result.toEscapedJsonString()+"}}";//
                 }
             }
 

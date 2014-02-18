@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.query.AccountsReceivable;
-import models.query.AccountsReceivableList;
 import org.codehaus.jackson.map.ObjectMapper;
 import utils.JsonHelper;
 import utils.Sha1Helper;
@@ -137,57 +136,16 @@ public class ClientProtocol {
         }
         else if(action.contentEquals("dbresult"))
         {
-//            try {
-
-                ObjectMapper mapper = JsonHelper.mapper;
-                String valuestring;
-                AccountsReceivable item;            
-                
-                System.out.println(data.get("result").toString());
-
-                String resultstring=(String)data.get("result");
             try {
-                ArrayList<AccountsReceivable> result;
-                result = mapper.readValue(resultstring, AccountsReceivableList.class);
+                String resultstring=(String)data.get("result");
+                AccountsReceivable.RecordList result=AccountsReceivable.RecordList.fromJsonString(resultstring);
                 for(AccountsReceivable ar:result)
                 {
                     System.out.println(ar.getInvoice());
                 }
-                
             } catch (IOException ex) {
-                Logger.getLogger(ClientProtocol.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
-//                AccountsReceivableList result=(AccountsReceivableList)data.get("result");
-//
-//                for(String key:result.keySet())
-//                {
-//                    valuestring=(String)result.get(key);
-//                    item=mapper.readValue(valuestring, AccountsReceivable.class);
-//                    System.out.println(item.getInvoice());
-//                    ///todo
-//                }
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-            
-            
-//            
-//            
-//            String result=(String)data.get("result");
-//            System.out.println(result);
-//            try {
-//                Map<String,Object> resultobjects= JsonHelper.toMap(result);
-//                for(Object object:resultobjects.values())
-//                {
-//                    PurchaseData.list.add((Purchase)object);
-//                }
-//                for(Purchase p:PurchaseData.list)
-//                    System.out.println(p.getInvno());
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-                
-            
         }
 
 

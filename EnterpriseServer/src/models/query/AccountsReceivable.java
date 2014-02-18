@@ -1,5 +1,6 @@
 package models.query;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,6 +11,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import utils.JsonHelper;
 import utils.MySqlDBHelper;
 
 public class AccountsReceivable {
@@ -240,7 +245,7 @@ public class AccountsReceivable {
             return null;
     }
 
-    public static ArrayList<AccountsReceivable> select(String conditions)
+    public static RecordList select(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
         Connection conn=MySqlDBHelper.getInstance().getConnection();
@@ -250,7 +255,7 @@ public class AccountsReceivable {
             st = conn.createStatement();
                 rs = st.executeQuery("SELECT invoice.id,invoice.date,customer.name,invoice.invno,terms.name,invoice.total,invoice.status,invoice.customer_id,invoice.terms_id FROM invoice LEFT OUTER JOIN customer ON invoice.customer_id=customer.id LEFT OUTER JOIN terms ON invoice.terms_id=terms.id where "+conditions);
 
-            ArrayList<AccountsReceivable> items=new ArrayList<AccountsReceivable>();
+            RecordList items=new RecordList();
             while (rs.next()) {
                 items.add(new AccountsReceivable(rs));
                     //items.put(rs.getInt("id"), new AccountsReceivable(rs));
@@ -327,6 +332,18 @@ public class AccountsReceivable {
     {
             return "DROP TABLE IF EXISTS "+tablename;
     }
+    
+    public static class RecordList extends ArrayList<AccountsReceivable>{
+        public static RecordList fromJsonString(String resultstring) throws IOException
+        {
+            return JsonHelper.mapper.readValue(resultstring, RecordList.class);
+        }
+        public String toEscapedJsonString() throws IOException
+        {
+            return "\""+JsonHelper.mapper.writeValueAsString(this).replace("\"", "\\\"") +"\"";
+        }
+    }
+
     public static void main(String args[])
     {
         String database="tmcprogram3";
@@ -336,7 +353,8 @@ public class AccountsReceivable {
 
         boolean result=MySqlDBHelper.init(url, username, password);            
 
-        ArrayList<AccountsReceivable> items=AccountsReceivable.select("");
+        //ArrayList<AccountsReceivable> items=AccountsReceivable.select("");
+        RecordList items=AccountsReceivable.select("");
         for(AccountsReceivable item:items)
         {
             System.out.println(item);

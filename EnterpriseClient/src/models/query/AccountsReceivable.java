@@ -1,11 +1,14 @@
 package models.query;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.JsonHelper;
 
 public class AccountsReceivable {
     //------------FIELDS-----------
@@ -124,4 +127,14 @@ public class AccountsReceivable {
             return id.toString();
     }
 
+    public static class RecordList extends ArrayList<AccountsReceivable>{
+        public static RecordList fromJsonString(String resultstring) throws IOException
+        {
+            return JsonHelper.mapper.readValue(resultstring, RecordList.class);
+        }
+        public String toEscapedJsonString() throws IOException
+        {
+            return "\""+JsonHelper.mapper.writeValueAsString(this).replace("\"", "\\\"") +"\"";
+        }
+    }
 }
