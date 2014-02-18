@@ -3,9 +3,7 @@
  */
 package gui.tables;
 
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.List;
+import java.text.NumberFormat;
 import javax.swing.table.AbstractTableModel;
 import models.query.AccountsPayable;
 
@@ -37,6 +35,8 @@ import models.query.AccountsPayable;
      }
 
 
+     private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
+ 
      @Override
      public Object getValueAt(int row, int column) {
          AccountsPayable record = (AccountsPayable)data.get(row);
@@ -50,7 +50,7 @@ import models.query.AccountsPayable;
              case 3:
                 return record.getTerms();
              case 4:
-                return record.getAmount();
+                return formatter.format(record.getAmount()).replace("$", "");
              case 5:
                 return record.getStatus();
              case 6:

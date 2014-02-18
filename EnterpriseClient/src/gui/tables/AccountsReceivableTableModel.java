@@ -4,6 +4,7 @@
 package gui.tables;
 
 import java.awt.Color;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -40,6 +41,7 @@ import models.query.AccountsReceivable;
 //         else return true;
      }
 
+     private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
      @Override
      public Object getValueAt(int row, int column) {
@@ -54,7 +56,7 @@ import models.query.AccountsReceivable;
              case 3:
                 return record.getTerms();
              case 4:
-                return record.getAmount();
+                return formatter.format(record.getAmount()).replace("$", "");
              case 5:
                 return record.getStatus();
              case 6:

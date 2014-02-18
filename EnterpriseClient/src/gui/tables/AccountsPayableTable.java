@@ -7,6 +7,7 @@ import enterpriseclient.ClientProtocol;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.JPanel;
@@ -49,6 +50,12 @@ public class AccountsPayableTable extends JPanel {
 //        hidden.setPreferredWidth(2);
 //        hidden.setMaxWidth(2);
 //        hidden.setCellRenderer(new InteractiveRenderer(InteractiveTableModel.HIDDEN_INDEX));
+
+        TableColumn amountcolumn = table.getColumnModel().getColumn(4);
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment( JLabel.RIGHT );
+        amountcolumn.setCellRenderer( rightRenderer );        
+
         TableColumn termsdayscolumn = table.getColumnModel().getColumn(6);
         termsdayscolumn.setMinWidth(2);
         termsdayscolumn.setPreferredWidth(2);
