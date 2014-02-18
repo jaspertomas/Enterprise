@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,12 +43,14 @@ public class AccountsReceivable {
     public String customer;
     public String invoice;
     public String terms;
-    public BigDecimal amount;
+    public String amountstring;
     public String status;
     public Integer termsdays;
-    public Boolean due;
-    public Boolean overdue;
-
+    public Boolean due=false;
+    public Boolean overdue=false;
+    public BigDecimal amount;
+    
+    private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private static Calendar cal = Calendar.getInstance();
 
@@ -63,7 +66,11 @@ public class AccountsReceivable {
             amount=rs.getBigDecimal("invoice.total");
             status=rs.getString("invoice.status");
             termsdays=rs.getInt("terms.days");
-            
+            try{
+                amountstring=formatter.format(amount).replace("$", "");
+            }catch(java.lang.IllegalArgumentException e){
+                amountstring="null";
+            }
             if(termsdays!=0)
             {
                 java.util.Date today=new java.util.Date();
@@ -163,6 +170,14 @@ public class AccountsReceivable {
 
     public void setOverdue(Boolean overdue) {
         this.overdue = overdue;
+    }
+
+    public String getAmountstring() {
+        return amountstring;
+    }
+
+    public void setAmountstring(String amountstring) {
+        this.amountstring = amountstring;
     }
 
 

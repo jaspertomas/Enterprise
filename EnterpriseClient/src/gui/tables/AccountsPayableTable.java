@@ -51,10 +51,10 @@ public class AccountsPayableTable extends JPanel {
 //        hidden.setMaxWidth(2);
 //        hidden.setCellRenderer(new InteractiveRenderer(InteractiveTableModel.HIDDEN_INDEX));
 
-        TableColumn amountcolumn = table.getColumnModel().getColumn(4);
-        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-        rightRenderer.setHorizontalAlignment( JLabel.RIGHT );
-        amountcolumn.setCellRenderer( rightRenderer );        
+//        TableColumn amountcolumn = table.getColumnModel().getColumn(4);
+//        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+//        rightRenderer.setHorizontalAlignment( JLabel.RIGHT );
+//        amountcolumn.setCellRenderer( rightRenderer );        
 
         TableColumn termsdayscolumn = table.getColumnModel().getColumn(6);
         termsdayscolumn.setMinWidth(2);
@@ -68,6 +68,10 @@ public class AccountsPayableTable extends JPanel {
         overduecolumn.setMinWidth(2);
         overduecolumn.setPreferredWidth(2);
         overduecolumn.setMaxWidth(2);
+        TableColumn amountcolumn = table.getColumnModel().getColumn(9);
+        amountcolumn.setMinWidth(2);
+        amountcolumn.setPreferredWidth(2);
+        amountcolumn.setMaxWidth(2);
 
         setLayout(new BorderLayout());
         add(scroller, BorderLayout.CENTER);
@@ -78,6 +82,7 @@ public class AccountsPayableTable extends JPanel {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
             {
+                
                 final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 
                 Boolean due=(Boolean)tableModel.getValueAt(row, 7);
@@ -122,6 +127,12 @@ public class AccountsPayableTable extends JPanel {
                         c.setForeground(Color.BLACK);
                     }
                 }
+                
+                if(column==4)//amount
+                        setHorizontalAlignment( JLabel.RIGHT );
+                else
+                        setHorizontalAlignment( JLabel.LEFT );
+                
                 return c;
             }
         });        

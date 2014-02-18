@@ -10,7 +10,7 @@ import models.query.AccountsPayable;
  public class AccountsPayableTableModel extends AbstractTableModel {
 
      protected static String[] columnNames = {
-        "Date", "Vendor", "Purchase", "Terms", "Amount", "Status", "TermsDays", "Due", "Overdue"
+        "Date", "Vendor", "Purchase", "Terms", "Amount", "Status", "TermsDays", "Due", "Overdue", "Amount"
     };     
      protected AccountsPayable.RecordList data;
 

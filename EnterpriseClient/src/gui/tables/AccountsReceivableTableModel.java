@@ -11,13 +11,9 @@ import javax.swing.table.AbstractTableModel;
 import models.query.AccountsReceivable;
 
  public class AccountsReceivableTableModel extends AbstractTableModel {
-     public static final int TITLE_INDEX = 0;
-     public static final int ARTIST_INDEX = 1;
-     public static final int ALBUM_INDEX = 2;
-     public static final int HIDDEN_INDEX = 3;
 
      protected static String[] columnNames = {
-        "Date", "Customer", "Invoice", "Terms", "Amount", "Status", "TermsDays", "Due", "Overdue"
+        "Date", "Customer", "Invoice", "Terms", "Amount", "Status", "TermsDays", "Due", "Overdue", "Amount"
     };     
      protected AccountsReceivable.RecordList data;
 
@@ -41,8 +37,6 @@ import models.query.AccountsReceivable;
 //         else return true;
      }
 
-     private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
-
      @Override
      public Object getValueAt(int row, int column) {
          AccountsReceivable record = (AccountsReceivable)data.get(row);
@@ -56,7 +50,7 @@ import models.query.AccountsReceivable;
              case 3:
                 return record.getTerms();
              case 4:
-                return formatter.format(record.getAmount()).replace("$", "");
+                return record.getAmountstring();
              case 5:
                 return record.getStatus();
              case 6:
@@ -65,6 +59,8 @@ import models.query.AccountsReceivable;
                 return record.getDue();
              case 8:
                 return record.getOverdue();
+             case 9:
+                return record.getAmount();
              default:
                 return new Object();
          }
