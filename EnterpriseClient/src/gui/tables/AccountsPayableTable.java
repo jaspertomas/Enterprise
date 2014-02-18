@@ -12,18 +12,18 @@ import javax.swing.table.TableColumn;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import models.query.AccountsReceivable;
+import models.query.AccountsPayable;
 
 
-public class AccountsReceivableTable extends JPanel {
+public class AccountsPayableTable extends JPanel {
 
 
     protected JTable table;
     protected JScrollPane scroller;
-    protected AccountsReceivableTableModel tableModel;
+    protected AccountsPayableTableModel tableModel;
     
 
-    public AccountsReceivableTable() {
+    public AccountsPayableTable() {
         initComponent();
 //        tableModel.addRows();
         //tableModel.fireTableDataChanged();
@@ -36,7 +36,7 @@ public class AccountsReceivableTable extends JPanel {
 //        try {
 //            table = new JTable();
 
-        tableModel = AccountsReceivableTableModel.buildTableModel();
+        tableModel = AccountsPayableTableModel.buildTableModel();
         table = new JTable(tableModel);
 
         scroller = new javax.swing.JScrollPane(table);
@@ -164,18 +164,18 @@ public class AccountsReceivableTable extends JPanel {
         //...
         //formulate query
         //ask ClientProtocol to fetch data from server as JSON
-        //complete with terms and customers
-        //ClientProtocol receives data, calls this table via FrmAccountsReceivable singleton
+        //complete with terms and suppliers
+        //ClientProtocol receives data, calls this table via FrmAccountsPayable singleton
         //and tells it to display the data received via another function
         String criteria=" status != 'Paid' ";
         criteria=criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage;
-        ClientProtocol.sendDbSelect("AccountsReceivable",criteria);
+        ClientProtocol.sendDbSelect("AccountsPayable",criteria);
     }
     public Integer getMaxPages()
     {
         return maxpages;
     }
-    public void setData(AccountsReceivable.RecordList list,Integer count)
+    public void setData(AccountsPayable.RecordList list,Integer count)
     {
         tableModel.setData(list);
         System.out.println("count is "+count);

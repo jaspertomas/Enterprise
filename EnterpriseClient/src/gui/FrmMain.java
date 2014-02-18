@@ -35,6 +35,7 @@ public class FrmMain extends javax.swing.JFrame {
         cmdDSR = new javax.swing.JButton();
         cmdAccountsReceivable = new javax.swing.JButton();
         cmdTest = new javax.swing.JButton();
+        cmdAccountsPayable = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,6 +86,14 @@ public class FrmMain extends javax.swing.JFrame {
             }
         });
 
+        cmdAccountsPayable.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        cmdAccountsPayable.setText("Accounts Payable");
+        cmdAccountsPayable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdAccountsPayableActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,7 +109,10 @@ public class FrmMain extends javax.swing.JFrame {
                     .add(layout.createSequentialGroup()
                         .add(29, 29, 29)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(cmdAccountsReceivable)
+                            .add(layout.createSequentialGroup()
+                                .add(cmdAccountsReceivable)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(cmdAccountsPayable))
                             .add(layout.createSequentialGroup()
                                 .add(cmdPurchaseOrder)
                                 .add(18, 18, 18)
@@ -108,7 +120,7 @@ public class FrmMain extends javax.swing.JFrame {
                                 .add(18, 18, 18)
                                 .add(cmdDSR))
                             .add(cmdTest))))
-                .addContainerGap(443, Short.MAX_VALUE))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -121,7 +133,9 @@ public class FrmMain extends javax.swing.JFrame {
                     .add(cmdInvoice)
                     .add(cmdDSR))
                 .add(33, 33, 33)
-                .add(cmdAccountsReceivable, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(cmdAccountsReceivable, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(cmdAccountsPayable, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cmdTest, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 18, Short.MAX_VALUE)
@@ -168,7 +182,15 @@ public class FrmMain extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cmdTestActionPerformed
 
+    private void cmdAccountsPayableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAccountsPayableActionPerformed
+        FormManager.getInstance().getFrmAccountsPayable().setLocation(200, 200);
+        FrmAccountsPayable.getInstance().getTable().gotoPage(0);
+        FrmAccountsPayable.getInstance().updatePageLabel();
+        FormManager.getInstance().getFrmAccountsPayable().setVisible(true);
+    }//GEN-LAST:event_cmdAccountsPayableActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cmdAccountsPayable;
     private javax.swing.JButton cmdAccountsReceivable;
     private javax.swing.JButton cmdDSR;
     private javax.swing.JButton cmdInvoice;
