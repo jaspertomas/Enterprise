@@ -3,6 +3,7 @@
  */
 package gui.tables;
 
+import enterpriseclient.ClientProtocol;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.sql.SQLException;
@@ -105,6 +106,16 @@ public class AccountsReceivableTable extends JPanel {
         //complete with terms and customers
         //ClientProtocol receives data, calls this table via FrmAccountsReceivable singleton
         //and tells it to display the data received via another function
+        String criteria=" status != 'Paid' ";
+        criteria=criteria+" limit "+(tableModel.maxrecordsperpage*page)+","+tableModel.maxrecordsperpage;
+        
+//        for(Invoice item:Invoice.select(criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage)) {
+//            data.add(new AccountsReceivable(item.getDate(),item.getCustomerId(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
+//            System.out.println(item.getInvno());
+//        }
+        
+        
+        ClientProtocol.sendDbSelect("AccountsReceivable",criteria);
         
         
 //        try {

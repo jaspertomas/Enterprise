@@ -159,7 +159,7 @@ public class FrmMain extends javax.swing.JFrame {
     private void cmdAccountsReceivableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAccountsReceivableActionPerformed
         //setVisible(false);
         FormManager.getInstance().getFrmAccountsReceivable().setLocation(200, 200);
-        ClientProtocol.sendDbSelect("AccountsReceivable"," 1 limit 50");
+        FrmAccountsReceivable.getInstance().getTable().gotoPage(0);
         FormManager.getInstance().getFrmAccountsReceivable().setVisible(true);
     }//GEN-LAST:event_cmdAccountsReceivableActionPerformed
 

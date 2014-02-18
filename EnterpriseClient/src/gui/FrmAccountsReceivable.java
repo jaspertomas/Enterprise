@@ -29,7 +29,7 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
         instance=this;
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         lblPage.setText(String.valueOf(page+1));
-        table.gotoPage(0);
+        //table.gotoPage(0);
     }
 
     /**
@@ -50,6 +50,7 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
         cmdLastPage = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         lblPage = new javax.swing.JLabel();
+        cmdRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,6 +96,13 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
 
         lblPage.setText("0");
 
+        cmdRefresh.setText("Refresh");
+        cmdRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdRefreshActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,6 +126,8 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
                         .add(cmdNextPage)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cmdLastPage)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(cmdRefresh)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(cmdExit)))
                 .addContainerGap())
@@ -128,8 +138,8 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(table, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(table, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 359, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cmdExit)
                     .add(cmdFirstPage)
@@ -137,7 +147,8 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
                     .add(cmdNextPage)
                     .add(cmdLastPage)
                     .add(jLabel2)
-                    .add(lblPage))
+                    .add(lblPage)
+                    .add(cmdRefresh))
                 .addContainerGap())
         );
 
@@ -181,12 +192,18 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmdLastPageActionPerformed
 
+    private void cmdRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRefreshActionPerformed
+        table.gotoPage(page);
+        lblPage.setText(String.valueOf(page+1));
+    }//GEN-LAST:event_cmdRefreshActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdExit;
     private javax.swing.JButton cmdFirstPage;
     private javax.swing.JButton cmdLastPage;
     private javax.swing.JButton cmdNextPage;
     private javax.swing.JButton cmdPreviousPage;
+    private javax.swing.JButton cmdRefresh;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblPage;

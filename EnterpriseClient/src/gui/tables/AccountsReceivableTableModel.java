@@ -69,7 +69,7 @@ import models.query.AccountsReceivable;
      }
 
 
-    private static Integer maxrecordsperpage=50;
+    public static final Integer maxrecordsperpage=50;
     private static Integer maxpages=0;
 
     public static Integer getMaxpages() {
