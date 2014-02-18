@@ -160,6 +160,7 @@ public class FrmMain extends javax.swing.JFrame {
         //setVisible(false);
         FormManager.getInstance().getFrmAccountsReceivable().setLocation(200, 200);
         FrmAccountsReceivable.getInstance().getTable().gotoPage(0);
+        FrmAccountsReceivable.getInstance().updatePageLabel();
         FormManager.getInstance().getFrmAccountsReceivable().setVisible(true);
     }//GEN-LAST:event_cmdAccountsReceivableActionPerformed
 

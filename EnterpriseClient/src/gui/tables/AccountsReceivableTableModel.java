@@ -69,12 +69,12 @@ import models.query.AccountsReceivable;
      }
 
 
-    public static final Integer maxrecordsperpage=50;
-    private static Integer maxpages=0;
-
-    public static Integer getMaxpages() {
-        return maxpages;
-    }
+//    public static final Integer maxrecordsperpage=50;
+//    private static Integer maxpages=0;
+//
+//    public static Integer getMaxpages() {
+//        return maxpages;
+//    }
     
     public static AccountsReceivableTableModel buildTableModel() {
         AccountsReceivable.RecordList data = new AccountsReceivable.RecordList();

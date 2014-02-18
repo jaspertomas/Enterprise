@@ -19,7 +19,7 @@ import utils.MySqlDBHelper;
 
 public class AccountsReceivable {
     //------------FIELDS-----------
-    public static final String tablename="accounts_receivable";
+//    public static final String tablename="accounts_receivable";
     //field names
     public static String[] fields={
             "id"
@@ -146,17 +146,17 @@ public class AccountsReceivable {
 
             return values;
     }
-    public void delete()
-    {
-            AccountsReceivable.delete(this);
-    }
-    public void save()
-    {
-            if(id==null || id==0)
-                    AccountsReceivable.insert(this);
-            else
-                    AccountsReceivable.update(this);
-    }
+//    public void delete()
+//    {
+//            AccountsReceivable.delete(this);
+//    }
+//    public void save()
+//    {
+//            if(id==null || id==0)
+//                    AccountsReceivable.insert(this);
+//            else
+//                    AccountsReceivable.update(this);
+//    }
     public String toString()
     {
             return id.toString();
@@ -180,69 +180,76 @@ public class AccountsReceivable {
     }
     //-----------database functions--------------
 
-    public static void delete(Integer id)
-    {
-        Connection conn=MySqlDBHelper.getInstance().getConnection();            
-        Statement st = null;
-        try { 
-            st = conn.createStatement();
-            st.executeUpdate("delete from "+tablename+" where id = '"+id.toString()+"';");
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountsReceivable.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
-    }
-    public static void delete(AccountsReceivable item)
-    {
-        delete(item.getId());
-    }
-    public static void insert(AccountsReceivable item)
-    {
-        Connection conn=MySqlDBHelper.getInstance().getConnection();            
-        Statement st = null;
-        boolean withid=false;
-        try { 
-            st = conn.createStatement();
-            //for tables with integer primary key
-            if(fieldtypes[0].contentEquals("integer"))withid=false;                
-            //for tables with varchar primary key
-            else if(fieldtypes[0].contains("varchar"))withid=true;                
-            st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountsReceivable.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
-    }
-    public static void update(AccountsReceivable item)
-    {
-        Connection conn=MySqlDBHelper.getInstance().getConnection();            
-        Statement st = null;
-        boolean withid=false;
-        try { 
-            st = conn.createStatement();
-            st.executeUpdate("update "+tablename+" set "+implodeFieldsWithValues(item,false)+" where id = '"+item.getId().toString()+"';");
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountsReceivable.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
-    }
+//    public static void delete(Integer id)
+//    {
+//        Connection conn=MySqlDBHelper.getInstance().getConnection();            
+//        Statement st = null;
+//        try { 
+//            st = conn.createStatement();
+//            st.executeUpdate("delete from "+tablename+" where id = '"+id.toString()+"';");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(AccountsReceivable.class.getName()).log(Level.SEVERE, null, ex);
+//            ex.printStackTrace();
+//        }
+//    }
+//    public static void delete(AccountsReceivable item)
+//    {
+//        delete(item.getId());
+//    }
+//    public static void insert(AccountsReceivable item)
+//    {
+//        Connection conn=MySqlDBHelper.getInstance().getConnection();            
+//        Statement st = null;
+//        boolean withid=false;
+//        try { 
+//            st = conn.createStatement();
+//            //for tables with integer primary key
+//            if(fieldtypes[0].contentEquals("integer"))withid=false;                
+//            //for tables with varchar primary key
+//            else if(fieldtypes[0].contains("varchar"))withid=true;                
+//            st.executeUpdate("INSERT INTO "+tablename+" ("+implodeFields(withid)+")VALUES ("+implodeValues(item, withid)+");");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(AccountsReceivable.class.getName()).log(Level.SEVERE, null, ex);
+//            ex.printStackTrace();
+//        }
+//    }
+//    public static void update(AccountsReceivable item)
+//    {
+//        Connection conn=MySqlDBHelper.getInstance().getConnection();            
+//        Statement st = null;
+//        boolean withid=false;
+//        try { 
+//            st = conn.createStatement();
+//            st.executeUpdate("update "+tablename+" set "+implodeFieldsWithValues(item,false)+" where id = '"+item.getId().toString()+"';");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(AccountsReceivable.class.getName()).log(Level.SEVERE, null, ex);
+//            ex.printStackTrace();
+//        }
+//    }
     public static Integer count(String conditions)
     {
         if(conditions.isEmpty())conditions = "1";
-            Connection conn=MySqlDBHelper.getInstance().getConnection();
-            Statement st = null;
-            ResultSet rs = null;
-            try { 
-                st = conn.createStatement();
-                rs = st.executeQuery("SELECT count(*) from "+tablename+" where "+conditions);
-                while (rs.next()) {
-                    return rs.getInt(1);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(AccountsReceivable.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
+        //if conditions contains a limit clause, remove it. 
+        //It is not applicable to a count query
+        if(conditions.contains("limit"))
+        {
+            String[] segments=conditions.split("limit");
+            conditions=segments[0];
+        }
+        Connection conn=MySqlDBHelper.getInstance().getConnection();
+        Statement st = null;
+        ResultSet rs = null;
+        try { 
+            st = conn.createStatement();
+            rs = st.executeQuery("SELECT count(*) from invoice where "+conditions);
+            while (rs.next()) {
+                return rs.getInt(1);
             }
-            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountsReceivable.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     public static RecordList select(String conditions)
@@ -324,14 +331,14 @@ public class AccountsReceivable {
             }
             return output;
     }	
-    public static String createTable()
-    {
-            return "CREATE TABLE IF NOT EXISTS "+tablename+" ("+implodeFieldsWithTypes()+" );";
-    }
-    public static String deleteTable()
-    {
-            return "DROP TABLE IF EXISTS "+tablename;
-    }
+//    public static String createTable()
+//    {
+//            return "CREATE TABLE IF NOT EXISTS "+tablename+" ("+implodeFieldsWithTypes()+" );";
+//    }
+//    public static String deleteTable()
+//    {
+//            return "DROP TABLE IF EXISTS "+tablename;
+//    }
     
     public static class RecordList extends ArrayList<AccountsReceivable>{
         public static RecordList fromJsonString(String resultstring) throws IOException

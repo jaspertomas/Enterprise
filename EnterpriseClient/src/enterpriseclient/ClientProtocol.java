@@ -137,8 +137,9 @@ public class ClientProtocol {
         {
             try {
                 String resultstring=(String)data.get("result");
+                Integer count=(Integer)data.get("count");
                 AccountsReceivable.RecordList result=AccountsReceivable.RecordList.fromJsonString(resultstring);
-                FrmAccountsReceivable.getInstance().getTable().setData(result);
+                FrmAccountsReceivable.getInstance().getTable().setData(result,count);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

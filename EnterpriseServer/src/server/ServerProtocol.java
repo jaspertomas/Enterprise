@@ -132,8 +132,9 @@ public class ServerProtocol {
                 
                 if(table.contentEquals("AccountsReceivable"))
                 {
+                    Integer count=AccountsReceivable.count(criteria);
                     AccountsReceivable.RecordList result=AccountsReceivable.select(criteria);
-                    theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"dbresult\", \"data\": {\"result\":"+result.toEscapedJsonString()+"}}";//
+                    theOutput = "{\"program\": \""+Constants.programname+"\", \"action\":\"dbresult\", \"data\": {\"result\":"+result.toEscapedJsonString()+",\"count\":"+count+"}}";//
                 }
             }
 

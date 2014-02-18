@@ -20,7 +20,6 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
     }
     
     
-    private static Integer page=0;
     /**
      * Creates new form FrmAccountsReceivable
      */
@@ -28,7 +27,7 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
         initComponents();
         instance=this;
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        lblPage.setText(String.valueOf(page+1));
+        lblPage.setText(String.valueOf(table.getPage()+1));
         //table.gotoPage(0);
     }
 
@@ -160,41 +159,45 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
         FormManager.getInstance().getFrmMain().setVisible(true);
     }//GEN-LAST:event_cmdExitActionPerformed
 
+    public void updatePageLabel()
+    {
+        lblPage.setText(String.valueOf(table.getPage()+1));
+    }
     private void cmdFirstPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdFirstPageActionPerformed
-        if(page!=0)
+//        if(table.getPage()!=0)
         {
-            page=0;table.gotoPage(page);
-            lblPage.setText(String.valueOf(page+1));
+            table.gotoPage(0);
+            updatePageLabel();
         }
     }//GEN-LAST:event_cmdFirstPageActionPerformed
 
     private void cmdPreviousPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPreviousPageActionPerformed
-        if(page!=0)
+        if(table.getPage()!=0)
         {
-            page--;table.gotoPage(page);
-            lblPage.setText(String.valueOf(page+1));
+            table.gotoPage(table.getPage()-1);
+            updatePageLabel();
         }
     }//GEN-LAST:event_cmdPreviousPageActionPerformed
 
     private void cmdNextPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdNextPageActionPerformed
-        if(page!=table.getMaxPages()-1)
+        if(table.getPage()!=table.getMaxPages()-1)
         {
-            page++;table.gotoPage(page);
-            lblPage.setText(String.valueOf(page+1));
+            table.gotoPage(table.getPage()+1);
+            updatePageLabel();
         }
     }//GEN-LAST:event_cmdNextPageActionPerformed
 
     private void cmdLastPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLastPageActionPerformed
-        if(page!=table.getMaxPages()-1)
+        if(table.getPage()!=table.getMaxPages()-1)
         {
-            page=table.getMaxPages()-1;table.gotoPage(page);
-            lblPage.setText(String.valueOf(page+1));
+            table.gotoPage(table.getMaxPages()-1);
+            updatePageLabel();
         }
     }//GEN-LAST:event_cmdLastPageActionPerformed
 
     private void cmdRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRefreshActionPerformed
-        table.gotoPage(page);
-        lblPage.setText(String.valueOf(page+1));
+        table.gotoPage(table.getPage());
+        lblPage.setText(String.valueOf(table.getPage()+1));
     }//GEN-LAST:event_cmdRefreshActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

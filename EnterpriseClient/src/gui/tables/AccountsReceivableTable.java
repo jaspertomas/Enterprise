@@ -30,7 +30,7 @@ public class AccountsReceivableTable extends JPanel {
     public AccountsReceivableTable() {
         initComponent();
 //        tableModel.addRows();
-        tableModel.fireTableDataChanged();
+        //tableModel.fireTableDataChanged();
 
         
     }
@@ -40,18 +40,8 @@ public class AccountsReceivableTable extends JPanel {
 //        try {
 //            table = new JTable();
 
-            tableModel = AccountsReceivableTableModel.buildTableModel();
-            maxpages=tableModel.getMaxpages();//this is calculated by buildTableModel
-            
-            table = new JTable(tableModel);
-            //JOptionPane.showMessageDialog(null, new JScrollPane(table));
-            //tableModel.addTableModelListener(new InteractiveTableModelListener(table));
-            //table.setModel(tableModel);
-            //table.setSurrendersFocusOnKeystroke(true);
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
- 
+        tableModel = AccountsReceivableTableModel.buildTableModel();
+        table = new JTable(tableModel);
 
         scroller = new javax.swing.JScrollPane(table);
         table.setPreferredScrollableViewportSize(new java.awt.Dimension(500, 300));
@@ -98,8 +88,17 @@ public class AccountsReceivableTable extends JPanel {
             return c;
         }
     }
+    public static final Integer maxrecordsperpage=50;
+    private static Integer maxpages=0;
+    private Integer page=0;
+
+    public Integer getPage() {
+        return page;
+    }
+    
     public void gotoPage(Integer page)
     {
+        this.page=page;
         //...
         //formulate query
         //ask ClientProtocol to fetch data from server as JSON
@@ -107,36 +106,20 @@ public class AccountsReceivableTable extends JPanel {
         //ClientProtocol receives data, calls this table via FrmAccountsReceivable singleton
         //and tells it to display the data received via another function
         String criteria=" status != 'Paid' ";
-        criteria=criteria+" limit "+(tableModel.maxrecordsperpage*page)+","+tableModel.maxrecordsperpage;
-        
-//        for(Invoice item:Invoice.select(criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage)) {
-//            data.add(new AccountsReceivable(item.getDate(),item.getCustomerId(),item.getInvno(),item.getTermsId(),item.getTotal(),item.getStatus()));
-//            System.out.println(item.getInvno());
-//        }
-        
-        
+        criteria=criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage;
         ClientProtocol.sendDbSelect("AccountsReceivable",criteria);
-        
-        
-//        try {
-//            tableModel=AccountsReceivableTableModel.buildTableModel(page);
-//            maxpages=tableModel.getMaxpages();//this is calculated by buildTableModel
-//            table.setModel(tableModel);
-//            //tableModel.fireTableDataChanged();
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
     }
-    private Integer maxpages=0;
     public Integer getMaxPages()
     {
         return maxpages;
     }
-    public void setData(AccountsReceivable.RecordList list)
+    public void setData(AccountsReceivable.RecordList list,Integer count)
     {
         tableModel.setData(list);
+        System.out.println("count is "+count);
+        maxpages=Double.valueOf(Math.ceil(Double.valueOf(count)/maxrecordsperpage)).intValue();
+        tableModel.fireTableDataChanged();
     }
-    
 }
 class InteractiveTableModelListener implements TableModelListener {
 
