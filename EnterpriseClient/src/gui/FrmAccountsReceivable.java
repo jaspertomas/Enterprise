@@ -4,6 +4,7 @@
  */
 package gui;
 
+import gui.tables.AccountsReceivableTable;
 import javax.swing.WindowConstants;
 
 /**
@@ -12,12 +13,20 @@ import javax.swing.WindowConstants;
  */
 public class FrmAccountsReceivable extends javax.swing.JFrame {
 
+    private static FrmAccountsReceivable instance;
+    public static FrmAccountsReceivable getInstance()
+    {
+        return instance;
+    }
+    
+    
     private static Integer page=0;
     /**
      * Creates new form FrmAccountsReceivable
      */
     public FrmAccountsReceivable() {
         initComponents();
+        instance=this;
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         lblPage.setText(String.valueOf(page+1));
         table.gotoPage(0);
@@ -183,4 +192,11 @@ public class FrmAccountsReceivable extends javax.swing.JFrame {
     private javax.swing.JLabel lblPage;
     private gui.tables.AccountsReceivableTable table;
     // End of variables declaration//GEN-END:variables
+
+    public AccountsReceivableTable getTable() {
+        return table;
+    }
+
+
+
 }

@@ -15,6 +15,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import models.query.AccountsReceivable;
 
 
 public class AccountsReceivableTable extends JPanel {
@@ -119,6 +120,10 @@ public class AccountsReceivableTable extends JPanel {
     public Integer getMaxPages()
     {
         return maxpages;
+    }
+    public void setData(AccountsReceivable.RecordList list)
+    {
+        tableModel.setData(list);
     }
     
 }

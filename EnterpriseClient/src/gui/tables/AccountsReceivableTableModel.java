@@ -16,12 +16,12 @@ import models.query.AccountsReceivable;
      protected static String[] columnNames = {
         "Date", "Customer", "Invoice", "Terms", "Amount", "Status"
     };     
-     protected ArrayList<AccountsReceivable> data;
+     protected AccountsReceivable.RecordList data;
 
 //     public InteractiveTableModel() {
 //         dataVector = new ArrayList<Purchase>();
 //     }
-     public AccountsReceivableTableModel(ArrayList<AccountsReceivable> data, String[] columnNames) {
+     public AccountsReceivableTableModel(AccountsReceivable.RecordList data, String[] columnNames) {
          this.data = data;
          this.columnNames=columnNames;
      }
@@ -77,7 +77,7 @@ import models.query.AccountsReceivable;
     }
     
     public static AccountsReceivableTableModel buildTableModel() {
-        ArrayList<AccountsReceivable> data = new ArrayList<AccountsReceivable>();
+        AccountsReceivable.RecordList data = new AccountsReceivable.RecordList();
         return new AccountsReceivableTableModel(data, columnNames);
     }    
 //    public static AccountsReceivableTableModel buildTableModel(Integer page)
@@ -87,7 +87,7 @@ import models.query.AccountsReceivable;
 //        
 ////        if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
 //        maxpages=Double.valueOf(Math.ceil(Double.valueOf(Invoice.count(criteria))/maxrecordsperpage)).intValue();
-//        ArrayList<AccountsReceivable> data = new ArrayList<AccountsReceivable>();
+//        AccountsReceivable.RecordList data = new AccountsReceivable.RecordList();
 //
 ////        if(false)//uncomment this and recompile to allow editing of FrmAccountsReceivable display
 //        for(Invoice item:Invoice.select(criteria+" limit "+(maxrecordsperpage*page)+","+maxrecordsperpage)) {
@@ -97,5 +97,13 @@ import models.query.AccountsReceivable;
 //        return new AccountsReceivableTableModel(data, columnNames);
 //
 //    }    
+
+    public void setData(AccountsReceivable.RecordList data) {
+        this.data = data;
+        fireTableDataChanged();
+    }
+    
+    
+    
  }
 

@@ -3,15 +3,14 @@ package enterpriseclient;
 
 import constants.Constants;
 import gui.FormManager;
+import gui.FrmAccountsReceivable;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.query.AccountsReceivable;
-import org.codehaus.jackson.map.ObjectMapper;
 import utils.JsonHelper;
 import utils.Sha1Helper;
 
@@ -139,10 +138,7 @@ public class ClientProtocol {
             try {
                 String resultstring=(String)data.get("result");
                 AccountsReceivable.RecordList result=AccountsReceivable.RecordList.fromJsonString(resultstring);
-                for(AccountsReceivable ar:result)
-                {
-                    System.out.println(ar.getInvoice());
-                }
+                FrmAccountsReceivable.getInstance().getTable().setData(result);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
